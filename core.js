@@ -34,7 +34,7 @@ function UpdateFeed() {
 	xhr.onreadystatechange = function() {
 	  if (xhr.readyState == 4) {
 	    // innerText does not let the attacker inject HTML elements.
-	    onRssSuccess(xhr.responseText);
+	    onRssSuccess(parseXml(xhr.responseText));
 	  }
 	}
 	xhr.send();
