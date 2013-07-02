@@ -5,13 +5,13 @@ function startRequest() {
 	window.setTimeout(startRequest, 60000);
 }
 
-if (localStorage["HN.Notifications"] == null) {
+if (localStorage["FS.Notifications"] == null) {
   var notification = webkitNotifications.createHTMLNotification("initialNotification.html");
   notification.show();
-  localStorage["HN.Notifications"] = false;
+  localStorage["FS.Notifications"] = false;
 }
 //If any options are not already set, they will be set to defaults here
-SetInitialOption("HN.RequestInterval", 1200000);
-SetInitialOption("HN.BackgroundTabs", false);
+SetInitialOption("FS.RequestInterval", 1200000);
+SetInitialOption("FS.BackgroundTabs", false);
 
 startRequest();

@@ -12,7 +12,7 @@ function setupEvents() {
   });
 }
 function main() {
-  if (localStorage['HN.NumLinks'] == null) {
+  if (localStorage['FS.NumLinks'] == null) {
     buildPopupAfterResponse = true;
     UpdateFeed();
   }

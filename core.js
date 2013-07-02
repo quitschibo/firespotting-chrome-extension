@@ -12,13 +12,13 @@ function SetInitialOption(key, value) {
 }
 
 function UpdateIfReady(force) {
-	var lastRefresh = parseFloat(localStorage["HN.LastRefresh"]);
-	var interval = parseFloat(localStorage["HN.RequestInterval"]);
+	var lastRefresh = parseFloat(localStorage["FS.LastRefresh"]);
+	var interval = parseFloat(localStorage["FS.RequestInterval"]);
 	var nextRefresh = lastRefresh + interval;
 	var curTime = parseFloat((new Date()).getTime());
 	var isReady = (curTime > nextRefresh);
-	var isNull = (localStorage["HN.LastRefresh"] == null);
-	if ((force == true) || (localStorage["HN.LastRefresh"] == null)) {
+	var isNull = (localStorage["FS.LastRefresh"] == null);
+	if ((force == true) || (localStorage["FS.LastRefresh"] == null)) {
 		UpdateFeed();
 	}
 	else {
@@ -46,10 +46,10 @@ function onRssSuccess(doc) {
     return;
   }
  	links = parseHNLinks(doc);
- 	if (localStorage['HN.Notifications'] == 'true') {
-    if (localStorage['HN.LastNotificationTitle'] == null || localStorage['HN.LastNotificationTitle'] != links[0].Title) {
+ 	if (localStorage['FS.Notifications'] == 'true') {
+    if (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title) {
       ShowLinkNotification(links[0]);
-      localStorage['HN.LastNotificationTitle'] = links[0].Title;
+      localStorage['FS.LastNotificationTitle'] = links[0].Title;
     }
  	}
 	SaveLinksToLocalStorage(links);
@@ -57,11 +57,11 @@ function onRssSuccess(doc) {
 		buildPopup(links);
 		buildPopupAfterResponse = false;
 	}
-	localStorage["HN.LastRefresh"] = (new Date()).getTime();
+	localStorage["FS.LastRefresh"] = (new Date()).getTime();
 }
 
 function updateLastRefreshTime() {
-  localStorage["HN.LastRefresh"] = (new Date()).getTime();
+  localStorage["FS.LastRefresh"] = (new Date()).getTime();
 }
 
 function DebugMessage(message) {
@@ -87,7 +87,7 @@ function handleFeedParsingFailed(error) {
   //var feed = document.getElementById("feed");
   //feed.className = "error"
   //feed.innerText = "Error: " + error;
-  localStorage["HN.LastRefresh"] = localStorage["HN.LastRefresh"] + retryMilliseconds;
+  localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
 }
 
 function parseXml(xml) {
@@ -147,21 +147,21 @@ function parseHNLinks(doc) {
 }
 
 function SaveLinksToLocalStorage(links) {
-	localStorage["HN.NumLinks"] = links.length;
+	localStorage["FS.NumLinks"] = links.length;
 	for (var i=0; i<links.length; i++) {
-		localStorage["HN.Link" + i] = JSON.stringify(links[i]);
+		localStorage["FS.Link" + i] = JSON.stringify(links[i]);
 	}
 }
 
 function RetrieveLinksFromLocalStorage() {
-	var numLinks = localStorage["HN.NumLinks"];
+	var numLinks = localStorage["FS.NumLinks"];
 	if (numLinks == null) {
 		return null;
 	}
 	else {
 		var links = new Array();
 		for (var i=0; i<numLinks; i++) {
-			links.push(JSON.parse(localStorage["HN.Link" + i]))
+			links.push(JSON.parse(localStorage["FS.Link" + i]))
 		}
 		return links;
 	}
@@ -173,7 +173,7 @@ function openOptions() {
 }
 
 function openLink() {
-  openUrl(this.href, (localStorage['HN.BackgroundTabs'] == 'false'));
+  openUrl(this.href, (localStorage['FS.BackgroundTabs'] == 'false'));
 }
 
 function openLinkFront() {

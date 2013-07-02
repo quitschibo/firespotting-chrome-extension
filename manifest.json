@@ -3,8 +3,8 @@
   "name": "Firespotting! Interesting Ideas, Every Day!",
   "version": "1.0",
   "description": "Displays recent ideas from Firespotting",
-  "icons": { "48": "icon48.gif",
-	         "128": "icon128.gif" },
+  "icons": { "48": "icon.png",
+	         "128": "icon.png" },
   "browser_action": {
     "default_title": "Firespotting",
     "default_icon": "icon.png",
