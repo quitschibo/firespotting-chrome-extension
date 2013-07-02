@@ -12,15 +12,13 @@ function setupEvents() {
   });
 }
 function main() {
-  /*if (localStorage['HN.NumLinks'] == null) {
+  if (localStorage['FS.NumLinks'] == null) {
     buildPopupAfterResponse = true;
     UpdateFeed();
   }
   else {
     buildPopup(RetrieveLinksFromLocalStorage());
-  }*/
-  buildPopupAfterResponse = true;
-  UpdateFeed();
+  }
 }
 
 function buildPopup(links) {

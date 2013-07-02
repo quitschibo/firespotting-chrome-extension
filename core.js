@@ -29,15 +29,7 @@ function UpdateIfReady(force) {
 }
 
 function UpdateFeed() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "http://firespotting.com/rss", true);
-	xhr.onreadystatechange = function() {
-	  if (xhr.readyState == 4) {
-	    // innerText does not let the attacker inject HTML elements.
-	    onRssSuccess(parseXml(xhr.responseText));
-	  }
-	}
-	xhr.send();
+    $.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:onRssError, async: false});
 }
 
 function onRssSuccess(doc) {
@@ -100,7 +92,6 @@ function parseXml(xml) {
   catch (e) {
     xmlDoc = (new DOMParser).parseFromString(xml, 'text/xml');
   }
-
   return xmlDoc;
 }
 
