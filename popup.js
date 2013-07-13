@@ -5,7 +5,7 @@ window.onload = function(){
 function setupEvents() {
 	$('#submitLink').click(submitCurrentTab);
 	$('#refresh').click(refreshLinks);
-	$('#searchbox').keypress(searchOnEnter);
+//	$('#searchbox').keypress(searchOnEnter);
 	$('a#options').click(function(){
 		console.log("CLICKED THE OPTIONS LINK");
 		openOptions();
@@ -29,10 +29,6 @@ function buildPopup(links) {
 	//Setup Title Link
 	var title = document.getElementById("title");
 	title.addEventListener("click", openLink);
-
-	//Setup search button
-	var searchButton = document.getElementById("searchbutton");
-	searchButton.addEventListener("click", search);
 
 	for (var i=0; i<links.length; i++) {
 		hnLink = links[i];
@@ -59,21 +55,6 @@ function buildPopup(links) {
 	}
 	hideElement("spinner");
 	showElement("container");
-}
-
-function searchOnEnter(e) {
-	if (e.keyCode == 13) {
-		search();
-	}
-}
-
-function search() {
-	var searchBox = document.getElementById("searchbox");
-	var keywords = searchBox.value;
-	if (keywords.length > 0) {
-		var search_url = "http://www.hnsearch.com/search#request/all&q=" + keywords.replace(" ", "+");
-		openUrl(search_url, true);
-	}
 }
 
 function refreshLinks() {
