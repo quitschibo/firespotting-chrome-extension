@@ -20,30 +20,29 @@ function UpdateIfReady(force) {
 	var isNull = (localStorage["FS.LastRefresh"] == null);
 	if ((force == true) || (localStorage["FS.LastRefresh"] == null)) {
 		UpdateFeed();
-	}
-	else {
-	  if (isReady) {
-	    UpdateFeed();
-	  }
+	} else {
+		if (isReady) {
+			UpdateFeed();
+		}
 	}
 }
 
 function UpdateFeed() {
-    $.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:onRssError, async: false});
+	$.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:onRssError, async: false});
 }
 
 function onRssSuccess(doc) {
-  if (!doc) {
-    handleFeedParsingFailed("Not a valid feed.");
-    return;
-  }
- 	links = parseHNLinks(doc);
- 	if (localStorage['FS.Notifications'] == 'true') {
-    if (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title) {
-      ShowLinkNotification(links[0]);
-      localStorage['FS.LastNotificationTitle'] = links[0].Title;
-    }
- 	}
+	if (!doc) {
+		handleFeedParsingFailed("Not a valid feed.");
+		return;
+	}
+	links = parseHNLinks(doc);
+	if (localStorage['FS.Notifications'] == 'true') {
+		if (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title) {
+			ShowLinkNotification(links[0]);
+			localStorage['FS.LastNotificationTitle'] = links[0].Title;
+		}
+	}
 	SaveLinksToLocalStorage(links);
 	if (buildPopupAfterResponse == true) {
 		buildPopup(links);
@@ -53,88 +52,86 @@ function onRssSuccess(doc) {
 }
 
 function updateLastRefreshTime() {
-  localStorage["FS.LastRefresh"] = (new Date()).getTime();
+	localStorage["FS.LastRefresh"] = (new Date()).getTime();
 }
 
 function DebugMessage(message) {
-  var notification = webkitNotifications.createNotification(
-    "icon48.gif",
-    "DEBUG",
-    printTime(new Date()) + " :: " + message
-  );
-  notification.show();
-
+	var notification = webkitNotifications.createNotification(
+		"icon48.gif",
+		"DEBUG",
+		printTime(new Date()) + " :: " + message
+	);
+	notification.show();
 }
 
 function ShowLinkNotification(link) {
-  var notification = webkitNotifications.createHTMLNotification("notification.html");
-  notification.show();
+	var notification = webkitNotifications.createHTMLNotification("notification.html");
+	notification.show();
 }
 
 function onRssError(xhr, type, error) {
-  handleFeedParsingFailed('Failed to fetch RSS feed.');
+	handleFeedParsingFailed('Failed to fetch RSS feed.');
 }
 
 function handleFeedParsingFailed(error) {
-  //var feed = document.getElementById("feed");
-  //feed.className = "error"
-  //feed.innerText = "Error: " + error;
-  localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
+	//var feed = document.getElementById("feed");
+	//feed.className = "error"
+	//feed.innerText = "Error: " + error;
+	localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
 }
 
 function parseXml(xml) {
-  var xmlDoc;
-  try {
-    xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
-    xmlDoc.async = false;
-    xmlDoc.loadXML(xml);
-  } 
-  catch (e) {
-    xmlDoc = (new DOMParser).parseFromString(xml, 'text/xml');
-  }
-  return xmlDoc;
+	var xmlDoc;
+	try {
+		xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
+		xmlDoc.async = false;
+		xmlDoc.loadXML(xml);
+	} catch (e) {
+		xmlDoc = (new DOMParser).parseFromString(xml, 'text/xml');
+	}
+	return xmlDoc;
 }
 
 function parseHNLinks(doc) {
 	var entries = doc.getElementsByTagName('entry');
 	if (entries.length == 0) {
-	  entries = doc.getElementsByTagName('item');
+		entries = doc.getElementsByTagName('item');
 	}
-  var count = Math.min(entries.length, maxFeedItems);
-  var links = new Array();
-  for (var i=0; i< count; i++) {
-    item = entries.item(i);
-    var hnLink = new Object();
-    //Grab the title
-    var itemTitle = item.getElementsByTagName('title')[0];
-    if (itemTitle) {
-      hnLink.Title = itemTitle.textContent;
-    } else {
-      hnLink.Title = "Unknown Title";
-    }
-    
-    //Grab the Link
-    var itemLink = item.getElementsByTagName('link')[0];
-    if (!itemLink) {
-      itemLink = item.getElementsByTagName('comments')[0];
-    }
-    if (itemLink) {
-      hnLink.Link = itemLink.textContent;
-    } else {
-      hnLink.Link = '';
-    }
+	var count = Math.min(entries.length, maxFeedItems);
+	var links = new Array();
+	for (var i=0; i< count; i++) {
+		item = entries.item(i);
+		var hnLink = new Object();
+		//Grab the title
+		var itemTitle = item.getElementsByTagName('title')[0];
+		if (itemTitle) {
+			hnLink.Title = itemTitle.textContent;
+		} else {
+			hnLink.Title = "Unknown Title";
+		}
 
-    //Grab the comments link
-    var commentsLink = item.getElementsByTagName('comments')[0];
-    if (commentsLink) {
-      hnLink.CommentsLink = commentsLink.textContent;
-    } else {
-      hnLink.CommentsLink = '';
-    }
-    
-    links.push(hnLink);
-  }
-  return links;
+		//Grab the Link
+		var itemLink = item.getElementsByTagName('link')[0];
+		if (!itemLink) {
+			itemLink = item.getElementsByTagName('comments')[0];
+		}
+		if (itemLink) {
+			hnLink.Link = itemLink.textContent;
+		} else {
+			hnLink.Link = '';
+		}
+
+		//Grab the comments link
+		var commentsLink = item.getElementsByTagName('comments')[0];
+		if (commentsLink) {
+			hnLink.CommentsLink = commentsLink.textContent;
+		} else {
+			hnLink.CommentsLink = '';
+		}
+
+		links.push(hnLink);
+	}
+	return links;
 }
 
 function SaveLinksToLocalStorage(links) {
@@ -148,8 +145,7 @@ function RetrieveLinksFromLocalStorage() {
 	var numLinks = localStorage["FS.NumLinks"];
 	if (numLinks == null) {
 		return null;
-	}
-	else {
+	} else {
 		var links = new Array();
 		for (var i=0; i<numLinks; i++) {
 			links.push(JSON.parse(localStorage["FS.Link" + i]))
@@ -164,7 +160,7 @@ function openOptions() {
 }
 
 function openLink() {
-  openUrl(this.href, (localStorage['FS.BackgroundTabs'] == 'false'));
+	openUrl(this.href, (localStorage['FS.BackgroundTabs'] == 'false'));
 }
 
 function openLinkFront() {
@@ -184,18 +180,18 @@ function printTime(d) {
 					minute +
 					" " +
 					ap;
-  return timeString;
+	return timeString;
 }
 
 // Show |url| in a new tab.
 function openUrl(url, take_focus) {
-  // Only allow http and https URLs.
-  if (url.indexOf("http:") != 0 && url.indexOf("https:") != 0) {
-    return;
-  }
-  chrome.tabs.create({url: url, selected: take_focus});
+	// Only allow http and https URLs.
+	if (url.indexOf("http:") != 0 && url.indexOf("https:") != 0) {
+		return;
+	}
+	chrome.tabs.create({url: url, selected: take_focus});
 }
-	
+
 function hideElement(id) {
 	var e = document.getElementById(id);
 	e.style.display = 'none';
