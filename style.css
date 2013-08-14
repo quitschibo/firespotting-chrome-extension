@@ -3,7 +3,7 @@ a {text-decoration:none; color:#000;}
 a:hover {text-decoration:underline;}
 #container, #spinner { background:#F6F6EF;}
 #header {height:26px; background: #99ccff; color:#222;}
-#header img { border: 1px solid #fff; float:left; margin:3px;}
+#header img { float:left; margin:3px;}
 #header a, #header span, #header h1 { color:#222; float:left; margin:5px 2px 0 5px; }
 #title, a#title { font-weight:bold; font-size:14px; margin-top:5px; }
 #feed {min-width:auto; margin:5px; font-size:9pt; padding-bottom:2px; }
