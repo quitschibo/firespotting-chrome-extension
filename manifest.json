@@ -1,10 +1,10 @@
 {
 	"manifest_version": 2,
 	"name": "Firespotting! Interesting Ideas, Every Day!",
-	"version": "1.0",
+	"version": "0.1",
 	"description": "Displays recent ideas from Firespotting",
-	"icons":    { "48": "icon.png",
-				"128": "icon.png" },
+	"icons":    { "48": "bulb32.png",
+				"128": "bulb32.png" },
 	"browser_action": {
 		"default_title": "Firespotting",
 		"default_icon": "bulb32.png",

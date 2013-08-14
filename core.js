@@ -57,7 +57,7 @@ function updateLastRefreshTime() {
 
 function DebugMessage(message) {
 	var notification = webkitNotifications.createNotification(
-		"icon48.gif",
+		"bulb18.png",
 		"DEBUG",
 		printTime(new Date()) + " :: " + message
 	);
