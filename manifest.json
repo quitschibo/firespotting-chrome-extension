@@ -7,7 +7,7 @@
 				"128": "icon.png" },
 	"browser_action": {
 		"default_title": "Firespotting",
-		"default_icon": "icon.png",
+		"default_icon": "bulb32.png",
 		"default_popup": "popup.html"
 	},
 	"background": {
