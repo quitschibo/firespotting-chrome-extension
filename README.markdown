@@ -6,6 +6,6 @@ This is an extension for Google Chrome that displays the latest ideas from [Fire
 This is a fork from Adam Albrecht's Hacker News Chrome Extension - Thank you very much.
 
 This is how it looks like:
-![](https://github.com/quitschibo/firespotting-chrome-extension/blob/master/webstore/webstore1280x800.png)
+![](https://raw.github.com/quitschibo/firespotting-chrome-extension/master/webstore/webstore1280x800.png)
 
 [Under MIT License](https://github.com/quitschibo/firespotting-chrome-extension/blob/master/LICENSE.txt)
