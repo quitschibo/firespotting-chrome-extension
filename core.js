@@ -65,7 +65,8 @@ function DebugMessage(message) {
 }
 
 function ShowLinkNotification(link) {
-	var notification = webkitNotifications.createHTMLNotification("notification.html");
+	var link = JSON.parse(localStorage['FS.Link0']);
+	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
 	notification.show();
 }
 
