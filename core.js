@@ -74,9 +74,6 @@ function onRssError(xhr, type, error) {
 }
 
 function handleFeedParsingFailed(error) {
-	//var feed = document.getElementById("feed");
-	//feed.className = "error"
-	//feed.innerText = "Error: " + error;
 	localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
 }
 
