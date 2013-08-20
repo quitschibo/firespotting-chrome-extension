@@ -65,7 +65,8 @@ function DebugMessage(message) {
 }
 
 function ShowLinkNotification(link) {
-	var notification = webkitNotifications.createHTMLNotification("notification.html");
+	var link = JSON.parse(localStorage['FS.Link0']);
+	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
 	notification.show();
 }
 
@@ -74,9 +75,6 @@ function onRssError(xhr, type, error) {
 }
 
 function handleFeedParsingFailed(error) {
-	//var feed = document.getElementById("feed");
-	//feed.className = "error"
-	//feed.innerText = "Error: " + error;
 	localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
 }
 

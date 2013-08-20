@@ -5,7 +5,6 @@ window.onload = function(){
 function setupEvents() {
 	$('#submitLink').click(submitCurrentTab);
 	$('#refresh').click(refreshLinks);
-//	$('#searchbox').keypress(searchOnEnter);
 	$('a#options').click(function(){
 		console.log("CLICKED THE OPTIONS LINK");
 		openOptions();
@@ -53,16 +52,20 @@ function buildPopup(links) {
 		row.appendChild(link_col)
 		feed.appendChild(row);
 	}
-	hideElement("spinner");
-	showElement("container");
+
+	hideElement("container");
+	showElement("spinner");
+	$("#spinner").fadeOut("slow", function() {
+		showElement("container");
+	});
 }
 
 function refreshLinks() {
-	console.log('refreshing!');
-	var linkTable = document.getElementById("feed");
-	while(linkTable.hasChildNodes()) linkTable.removeChild(linkTable.firstChild); //Remove all current links
+	console.log('refreshing!');	
 	toggle("container");
 	toggle("spinner");
+	var linkTable = document.getElementById("feed");
+	while(linkTable.hasChildNodes()) linkTable.removeChild(linkTable.firstChild); //Remove all current links
 	buildPopupAfterResponse = true;
 	UpdateFeed();
 	updateLastRefreshTime();
