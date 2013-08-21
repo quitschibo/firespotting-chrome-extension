@@ -53,15 +53,21 @@ function buildPopup(links) {
 		feed.appendChild(row);
 	}
 
-	hideElement("container");
-	showElement("spinner");
-	$("#spinner").fadeOut("slow", function() {
-		showElement("container");
-	});
+	// curtime - lastRefresh time -> when refreshing was max 1 second ago, show refresh animation
+	var curtime =  parseFloat((new Date()).getTime());
+	var lastRefresh = parseFloat(localStorage["FS.LastRefresh"]);
+	if (curtime - lastRefresh <= 1000) {
+		hideElement("container");
+		showElement("spinner");
+		$("#spinner").fadeOut("slow", function() {
+			showElement("container");
+		});
+		localStorage["FS.showLoadingAnimation"] = false;
+	}
 }
 
 function refreshLinks() {
-	console.log('refreshing!');	
+	console.log('refreshing!');
 	toggle("container");
 	toggle("spinner");
 	var linkTable = document.getElementById("feed");
