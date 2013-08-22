@@ -62,7 +62,6 @@ function buildPopup(links) {
 		$("#spinner").fadeOut("slow", function() {
 			showElement("container");
 		});
-		localStorage["FS.showLoadingAnimation"] = false;
 	}
 }
 
