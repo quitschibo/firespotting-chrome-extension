@@ -4,12 +4,17 @@ var buildPopupAfterResponse = false;
 var OnFeedSuccess = null;
 var OnFeedFail = null;
 var retryMilliseconds = 120000;
+var localStorage = new Array();
 
 function SetInitialOption(key, value) {
 	if (localStorage[key] == null) {
 		localStorage[key] = value;
 	}
 }
+
+// node.js boilerplate
+module.exports.SetInitialOption = SetInitialOption;
+module.exports.localStorage = localStorage;
 
 function UpdateIfReady(force) {
 	var lastRefresh = parseFloat(localStorage["FS.LastRefresh"]);
