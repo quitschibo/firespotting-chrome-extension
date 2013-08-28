@@ -1,12 +1,14 @@
 {
-	"author": "Manuel Möhlmann <mail@manmoe.com>",
-	"name": "firespotting-chrome-extension",
-	"description": "A Firespotting! extension for chrome",
-	"version": "0.2.1",
-	"scripts": {
-		"test": "make test"
-	},
-	"devDependencies": {
-		"mocha": "1.12.x"
-	}
+  "author": "Manuel Möhlmann <mail@manmoe.com>",
+  "name": "firespotting-chrome-extension",
+  "description": "A Firespotting! extension for chrome",
+  "version": "0.2.1",
+  "scripts": {
+    "test": "make test"
+  },
+  "devDependencies": {
+    "mocha": "1.12.x",
+    "coveralls": "~2.2.0",
+    "mocha-lcov-reporter": "0.0.1"
+  }
 }
