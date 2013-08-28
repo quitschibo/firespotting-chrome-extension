@@ -2,8 +2,6 @@ test:
 	@./node_modules/.bin/mocha
 
 test-coveralls:
-	$(MAKE) test REPORTER=spec
-	$(MAKE) test REPORTER=mocha-lcov-reporter | ./bin/coveralls.js --verbose
-	rm -rf lib-cov
+	NODE_ENV=test YOURPACKAGE_COVERAGE=1 ./node_modules/.bin/mocha --require blanket --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
 
 .PHONY: test
