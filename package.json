@@ -1,0 +1,9 @@
+{
+	"author": "Manuel Möhlmann <mail@manmoe.com>",
+	"name": "firespotting-chrome-extension",
+	"description": "A Firespotting! extension for chrome",
+	"version": "0.2.1",
+	"scripts": {
+		"test": "make test"
+	}
+}
