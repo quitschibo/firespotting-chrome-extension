@@ -48,10 +48,11 @@ function buildPopup(links) {
 		comments.addEventListener("click", openLink);
 		var fireImage = document.createElement("img");
 		fireImage.src = "fire_small.png";
-		link_col.appendChild(title);
+		fireImage.className = "imagemargin";
 		if (hnLink.Title.endsWith("Fire!")) {
 			link_col.appendChild(fireImage);
 		}
+		link_col.appendChild(title);
 		link_col.appendChild(comments);
 		row.appendChild(num);
 		row.appendChild(link_col)
