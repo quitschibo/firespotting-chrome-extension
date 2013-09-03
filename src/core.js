@@ -12,10 +12,6 @@ function SetInitialOption(key, value) {
 	}
 }
 
-// node.js boilerplate
-module.exports.SetInitialOption = SetInitialOption;
-module.exports.localStorage = localStorage;
-
 function UpdateIfReady(force) {
 	var lastRefresh = parseFloat(localStorage["FS.LastRefresh"]);
 	var interval = parseFloat(localStorage["FS.RequestInterval"]);
@@ -71,6 +67,10 @@ function DebugMessage(message) {
 
 function ShowLinkNotification(link) {
 	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
+	notification.onclick = function () {
+		window.open("http://stackoverflow.com/a/13328397/1269037");
+		notification.close();
+	}
 	notification.show();
 }
 
@@ -211,3 +211,8 @@ function toggle(id) {
 	else
 		e.style.display = 'block';
 }
+// node.js boilerplate
+module.exports.SetInitialOption = core.SetInitialOption;
+module.exports.localStorage = core.localStorage;
+module.exports.UpdateIfReady = core.UpdateIfReady;
+module.exports.UpdateFeed = core.UpdateFeed;

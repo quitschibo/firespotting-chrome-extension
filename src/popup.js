@@ -46,7 +46,12 @@ function buildPopup(links) {
 		comments.innerText = "(comments)";
 		comments.href = hnLink.CommentsLink;
 		comments.addEventListener("click", openLink);
+		var fireImage = document.createElement("img");
+		fireImage.src = "fire_small.png";
 		link_col.appendChild(title);
+		if (hnLink.Title.endsWith("Fire!")) {
+			link_col.appendChild(fireImage);
+		}
 		link_col.appendChild(comments);
 		row.appendChild(num);
 		row.appendChild(link_col)
@@ -85,4 +90,9 @@ function submitCurrentTab() {
 		});
 	});
 }
+
+// awesome function provided by http://stackoverflow.com/questions/280634/endswith-in-javascript - Thanks a lot!
+String.prototype.endsWith = function(suffix) {
+	return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 
