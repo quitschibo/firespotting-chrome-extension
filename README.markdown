@@ -1,5 +1,5 @@
 ## Firespotting Chrome Extension  
-
+[![Build Status](https://travis-ci.org/quitschibo/firespotting-chrome-extension.png?branch=master)](https://travis-ci.org/quitschibo/firespotting-chrome-extension)
 
 This is an extension for Google Chrome that displays the latest ideas from [Firespotting](http://firespotting.com). It also features desktop notifications of the current #1 idea.
 

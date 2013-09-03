@@ -1,0 +1,3 @@
+[submodule "selenium-tests"]
+	path = selenium-tests
+	url = git://github.com/quitschibo/chrome-extension-selenium-example
