@@ -212,7 +212,7 @@ function toggle(id) {
 		e.style.display = 'block';
 }
 // node.js boilerplate
-module.exports.SetInitialOption = core.SetInitialOption;
-module.exports.localStorage = core.localStorage;
-module.exports.UpdateIfReady = core.UpdateIfReady;
-module.exports.UpdateFeed = core.UpdateFeed;
+module.exports.SetInitialOption = SetInitialOption;
+module.exports.localStorage = localStorage;
+module.exports.UpdateIfReady = UpdateIfReady;
+module.exports.UpdateFeed = UpdateFeed;
