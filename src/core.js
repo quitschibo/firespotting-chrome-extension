@@ -67,10 +67,10 @@ function DebugMessage(message) {
 
 function ShowLinkNotification(link) {
 	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
-	notification.onclick = function () {
-		window.open("http://stackoverflow.com/a/13328397/1269037");
+	notification.addEventListener("click", function () {
+		window.open(link.Link);
 		notification.close();
-	}
+	});
 	notification.show();
 }
 
