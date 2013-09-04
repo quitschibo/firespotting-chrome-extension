@@ -8,4 +8,4 @@ This is a fork from Adam Albrecht's Hacker News Chrome Extension - Thank you ver
 This is how it looks like:
 ![](https://raw.github.com/quitschibo/firespotting-chrome-extension/master/webstore/webstore1280x800.png)
 
-[Under MIT License](https://github.com/quitschibo/firespotting-chrome-extension/blob/master/LICENSE.txt)
+[Under MIT License](https://github.com/quitschibo/firespotting-chrome-extension/blob/master/src/LICENSE.txt)
