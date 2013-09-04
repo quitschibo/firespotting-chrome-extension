@@ -21,7 +21,6 @@
 		"notifications"
 	],
 	"web_accessible_resources": [
-    	"bulb48.png"
-    ],
-	"content_security_policy": "script-src 'self' 'unsafe-eval' https://firespotting.com; object-src 'self' 'unsafe-eval' https://firespotting.com"
+		"bulb48.png"
+	]
 }
