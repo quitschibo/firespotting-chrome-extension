@@ -4,7 +4,8 @@
   "description": "A Firespotting! extension for chrome",
   "version": "0.2.1",
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "drytest": "make drytest"
   },
   "devDependencies": {
     "mocha": "1.12.x",
