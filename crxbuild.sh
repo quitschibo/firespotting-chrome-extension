@@ -23,4 +23,4 @@ name="firespotting"
 # zip up the crx dir
 cwd=$(pwd -P)
 cd "$dir" && zip -qr -9 -X "../firespotting.zip" .
-chmod 777 buildcrx.bin
+chmod +x "$cwd/buildcrx.bin"
