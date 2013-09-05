@@ -51,4 +51,4 @@ sig_len_hex=$(byte_swap $(printf '%08x\n' $(ls -l "$sig" | awk '{print $5}')))
 ) > "$crx"
 echo "Wrote $crx"
 rm $key
-mv src.crx src/main/resources
+mv $crx src/main/resources
