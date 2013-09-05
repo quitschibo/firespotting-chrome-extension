@@ -14,10 +14,10 @@ key=$2
 echo "-----BEGIN RSA PRIVATE KEY-----" > key.pem
 
 # get private key from env and replace all whitespaces with linebreaks
-echo $PEMKEY | tr '|' '\n' > key.pem
+echo $PEMKEY | tr '|' '\n' >> key.pem
 
 # add base line of private key
-echo "-----END RSA PRIVATE KEY-----" > key.pem
+echo "-----END RSA PRIVATE KEY-----" >> key.pem
 
 name="firespotting"
 crx="$name.crx"
@@ -50,5 +50,5 @@ sig_len_hex=$(byte_swap $(printf '%08x\n' $(ls -l "$sig" | awk '{print $5}')))
   cat "$pub" "$sig" "$zip"
 ) > "$crx"
 echo "Wrote $crx"
-rm $key
-mv src.crx src/main/resources
+#rm $key
+#mv src.crx src/main/resources
