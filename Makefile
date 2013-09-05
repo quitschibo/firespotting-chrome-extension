@@ -9,6 +9,6 @@ selenium:
 	cd selenium-tests && mvn verify
 
 build:
-	sh crxmake.sh src/
+	sh crxmake.sh src/ key.pem
 
 .PHONY: test

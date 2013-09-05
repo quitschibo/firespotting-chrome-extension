@@ -2,14 +2,23 @@
 #
 # Purpose: Pack a Chromium extension directory into crx format
 
-if test $# -ne 1; then
-  echo "Usage: crxmake.sh <extension dir> (export EXTENSION_KEY=[INSERT YOUR KEY HERE])"
+if test $# -ne 2; then
+  echo "Usage: crxmake.sh <extension dir> <pem path>"
   exit 1
 fi
 
 dir=$1
-echo $EXTENSION_KEY > key.pem
-key="key.pem"
+key=$2
+
+# add header line of private key
+echo "-----BEGIN RSA PRIVATE KEY-----" > key.pem
+
+# get private key from env and replace all whitespaces with linebreaks
+echo $PEMKEY | tr '|' '\n' > key.pem
+
+# add base line of private key
+echo "-----END RSA PRIVATE KEY-----" > key.pem
+
 name="firespotting"
 crx="$name.crx"
 pub="$name.pub"
@@ -42,4 +51,4 @@ sig_len_hex=$(byte_swap $(printf '%08x\n' $(ls -l "$sig" | awk '{print $5}')))
 ) > "$crx"
 echo "Wrote $crx"
 rm $key
-mv firespotting.crx selenium-tests/src/main/resources
+mv src.crx src/main/resources
