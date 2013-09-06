@@ -24,3 +24,6 @@ name="firespotting"
 cwd=$(pwd -P)
 cd "$dir" && zip -qr -9 -X "../firespotting.zip" .
 chmod +x "$cwd/buildcrx.bin"
+
+$cwd/buildcrx.bin firespotting.zip $cwd/key.pem firespotting.crx
+mv "$cwd/firespotting.crx" "$cwd/selenium-test/src/main/resources"
