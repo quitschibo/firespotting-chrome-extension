@@ -14,5 +14,6 @@ if (localStorage["FS.Notifications"] == null) {
 //If any options are not already set, they will be set to defaults here
 SetInitialOption("FS.RequestInterval", 1200000);
 SetInitialOption("FS.BackgroundTabs", false);
+SetInitialOption("FS.NotificationTimeout", 5000);
 
 startRequest();
