@@ -67,11 +67,17 @@ function DebugMessage(message) {
 
 function ShowLinkNotification(link) {
 	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
+
+	// notification onClick function
 	notification.addEventListener("click", function () {
 		window.open(link.Link);
 		notification.close();
 	});
-	setTimeout(function() { notification.cancel() }, 4000);
+
+	// set notification timeout
+	if (localStorage["FS.NotificationTimeout"] != "infinity") {
+		setTimeout(function() { notification.cancel() }, localStorage["FS.NotificationTimeout"]);
+	}
 	notification.show();
 }
 
