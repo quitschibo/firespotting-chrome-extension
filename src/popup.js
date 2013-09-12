@@ -65,7 +65,7 @@ function buildPopup(links) {
 	if (curtime - lastRefresh <= 1000) {
 		hideElement("container");
 		showElement("spinner");
-		$("#spinner").fadeOut("slow", function() {
+		$("#spinner").fadeOut(300, function() {
 			showElement("container");
 		});
 	}
