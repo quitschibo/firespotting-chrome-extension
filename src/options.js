@@ -7,11 +7,13 @@ $(function(){
 var selectReqInterval;
 var radioNotifications;
 var radioBackgroundTabs;
+var selectNotificationTimeout;
 
 function initVariables() {
 	selectReqInterval = document.getElementById("RequestInterval");
 	radioNotifications = document.getElementsByName("Notifications");
 	radioBackgroundTabs = document.getElementsByName("BackgroundTabs");
+	selectNotificationTimeout = document.getElementsByName("NotificationTimeout");
 }
 
 function restoreOptions() {
@@ -35,11 +37,20 @@ function restoreOptions() {
 			radioBackgroundTabs[i].checked = "true";
 		}
 	}
+	var notificationTimeout = localStorage["FS.NotificationTimeout"];
+	for (var i=0; i<selectReqInterval.children.length; i++) {
+		if (selectNotificationTimeout[i].value == notificationTimeout) {
+			selectNotificationTimeout[i].selected = "true";
+		}
+	}
 }
 
 function saveOptions() {
 	var interval = selectReqInterval.children[selectReqInterval.selectedIndex].value;
 	localStorage["FS.RequestInterval"] = interval;
+
+	var notificationTimeout = selectNotificationTimeout.children[selectNotificationTimeout.selectedIndex].value;
+	localStorage["FS.NotificationTimeout"] = notificationTimeout;
 
 	for (var i=0; i<radioNotifications.length; i++) {
 		if (radioNotifications[i].checked) {
