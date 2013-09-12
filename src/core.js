@@ -71,6 +71,7 @@ function ShowLinkNotification(link) {
 		window.open(link.Link);
 		notification.close();
 	});
+	setTimeout(function() { notification.cancel() }, 4000);
 	notification.show();
 }
 
