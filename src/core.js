@@ -5,6 +5,7 @@ var OnFeedSuccess = null;
 var OnFeedFail = null;
 var retryMilliseconds = 120000;
 var localStorage = new Array();
+var useForce = false;
 
 function SetInitialOption(key, value) {
 	if (localStorage[key] == null) {
@@ -19,6 +20,7 @@ function UpdateIfReady(force) {
 	var curTime = parseFloat((new Date()).getTime());
 	var isReady = (curTime > nextRefresh);
 	var isNull = (localStorage["FS.LastRefresh"] == null);
+	useForce = force;
 	if ((force == true) || (localStorage["FS.LastRefresh"] == null)) {
 		UpdateFeed();
 	} else {
@@ -39,8 +41,11 @@ function onRssSuccess(doc) {
 	}
 	links = parseHNLinks(doc);
 	if (localStorage['FS.Notifications'] == 'true') {
-		if (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title) {
+		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
 			ShowLinkNotification(links[0]);
+			localStorage['FS.LastNotificationTitle'] = links[0].Title;
+		} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
+			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
 		}
 	}
@@ -76,7 +81,7 @@ function ShowLinkNotification(link) {
 
 	// set notification timeout
 	if (localStorage["FS.NotificationTimeout"] != "infinity") {
-		setTimeout(function() { notification.cancel() }, localStorage["FS.NotificationTimeout"]);
+		setTimeout(function() { notification.close(); }, localStorage["FS.NotificationTimeout"]);
 	}
 	notification.show();
 }
