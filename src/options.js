@@ -1,6 +1,6 @@
 $(function(){
 	restoreOptions();
-	$('.notifications-radio, .background-tabs-radio, #RequestInterval').change(function(){
+	$('.notifications-radio, .background-tabs-radio, #RequestInterval, #NotificationTimeout').change(function(){
 		saveOptions();
 	});
 });
@@ -13,34 +13,35 @@ function initVariables() {
 	selectReqInterval = document.getElementById("RequestInterval");
 	radioNotifications = document.getElementsByName("Notifications");
 	radioBackgroundTabs = document.getElementsByName("BackgroundTabs");
-	selectNotificationTimeout = document.getElementsByName("NotificationTimeout");
+	selectNotificationTimeout = document.getElementById("NotificationTimeout");
 }
 
 function restoreOptions() {
 	initVariables();
 	var reqInterval = localStorage["FS.RequestInterval"];
-	for (var i=0; i<selectReqInterval.children.length; i++) {
+	for (var i = 0; i < selectReqInterval.children.length; i++) {
 		if (selectReqInterval[i].value == reqInterval) {
 			selectReqInterval[i].selected = "true";
 			break;
 		}
 	}
 	var notifications = localStorage["FS.Notifications"];
-	for (var i=0; i<radioNotifications.length; i++) {
+	for (var i = 0; i < radioNotifications.length; i++) {
 		if (radioNotifications[i].value == notifications) {
 			radioNotifications[i].checked = "true";
 		}
 	}
 	var backgroundTabs = localStorage["FS.BackgroundTabs"];
-	for (var i=0; i<radioBackgroundTabs.length; i++) {
+	for (var i = 0; i < radioBackgroundTabs.length; i++) {
 		if (radioBackgroundTabs[i].value == backgroundTabs) {
 			radioBackgroundTabs[i].checked = "true";
 		}
 	}
 	var notificationTimeout = localStorage["FS.NotificationTimeout"];
-	for (var i=0; i<selectReqInterval.children.length; i++) {
+	for (var i = 0; i < selectNotificationTimeout.children.length; i++) {
 		if (selectNotificationTimeout[i].value == notificationTimeout) {
 			selectNotificationTimeout[i].selected = "true";
+			break;
 		}
 	}
 }
