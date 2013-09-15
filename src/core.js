@@ -13,6 +13,7 @@ function SetInitialOption(key, value) {
 	}
 }
 
+// function for retrieving new ideas
 function UpdateIfReady(force) {
 	var lastRefresh = parseFloat(localStorage["FS.LastRefresh"]);
 	var interval = parseFloat(localStorage["FS.RequestInterval"]);
@@ -30,10 +31,12 @@ function UpdateIfReady(force) {
 	}
 }
 
+// function calls rss feed
 function UpdateFeed() {
 	$.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:onRssError, async: false});
 }
 
+// function for parsing the rss result
 function onRssSuccess(doc) {
 	if (!doc) {
 		handleFeedParsingFailed("Not a valid feed.");
