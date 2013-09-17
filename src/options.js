@@ -1,9 +1,12 @@
+// function will be executed, when user opens options page
 $(function(){
 	restoreOptions();
+	// options should be saved within every change
 	$('.notifications-radio, .background-tabs-radio, #RequestInterval, #NotificationTimeout').change(function(){
 		saveOptions();
 	});
 });
+
 var selectReqInterval;
 var radioNotifications;
 var radioBackgroundTabs;
@@ -16,6 +19,7 @@ function initVariables() {
 	selectNotificationTimeout = document.getElementById("NotificationTimeout");
 }
 
+// make all options visible for the user
 function restoreOptions() {
 	initVariables();
 	var reqInterval = localStorage["FS.RequestInterval"];
@@ -46,6 +50,7 @@ function restoreOptions() {
 	}
 }
 
+// function for saving all options to local storage
 function saveOptions() {
 	var interval = selectReqInterval.children[selectReqInterval.selectedIndex].value;
 	localStorage["FS.RequestInterval"] = interval;
