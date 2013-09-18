@@ -42,7 +42,7 @@ function onRssSuccess(doc) {
 		handleFeedParsingFailed("Not a valid feed.");
 		return;
 	}
-	links = parseHNLinks(doc);
+	links = parseFSLinks(doc);
 	if (localStorage['FS.Notifications'] == 'true') {
 		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
 			ShowLinkNotification(links[0]);
@@ -109,7 +109,7 @@ function parseXml(xml) {
 	return xmlDoc;
 }
 
-function parseHNLinks(doc) {
+function parseFSLinks(doc) {
 	var entries = doc.getElementsByTagName('entry');
 	if (entries.length == 0) {
 		entries = doc.getElementsByTagName('item');
