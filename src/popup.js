@@ -30,7 +30,7 @@ function buildPopup(links) {
 	title.addEventListener("click", openLink);
 
 	for (var i=0; i<links.length; i++) {
-		hnLink = links[i];
+		fsLink = links[i];
 		var row = document.createElement("tr");
 		row.className = "link";
 		var num = document.createElement("td");
@@ -38,18 +38,18 @@ function buildPopup(links) {
 		var link_col = document.createElement("td");
 		var title = document.createElement("a");
 		title.className = "link_title";
-		title.innerText = hnLink.Title;
-		title.href = hnLink.Link;
+		title.innerText = fsLink.Title;
+		title.href = fsLink.Link;
 		title.addEventListener("click", openLink);
 		var comments = document.createElement("a");
 		comments.className = "comments";
 		comments.innerText = "(comments)";
-		comments.href = hnLink.CommentsLink;
+		comments.href = fsLink.CommentsLink;
 		comments.addEventListener("click", openLink);
 		var fireImage = document.createElement("img");
 		fireImage.src = "fire_small.png";
 		fireImage.className = "imagemargin";
-		if (hnLink.Title.endsWith("Fire!")) {
+		if (fsLink.Title.endsWith("Fire!")) {
 			link_col.appendChild(fireImage);
 		}
 		link_col.appendChild(title);
