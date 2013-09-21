@@ -9,8 +9,6 @@
   "devDependencies": {
     "mocha": "1.13.x",
     "coveralls": "~2.3.0",
-    "istanbul": "0.1.x",
-    "sinon": "1.7.x",
-    "jsmockito": "1.0.x"
+    "istanbul": "0.1.x"
   }
 }
