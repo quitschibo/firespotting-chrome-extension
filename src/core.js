@@ -23,10 +23,10 @@ function UpdateIfReady(force) {
 	var isNull = (localStorage["FS.LastRefresh"] == null);
 	useForce = force;
 	if ((force == true) || (localStorage["FS.LastRefresh"] == null)) {
-		UpdateFeed();
+		this.UpdateFeed();
 	} else {
 		if (isReady) {
-			UpdateFeed();
+			this.UpdateFeed();
 		}
 	}
 }
