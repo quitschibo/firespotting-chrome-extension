@@ -7,5 +7,17 @@ describe('core.js testsuite', function() {
 			core.SetInitialOption('key', 'value');
 			assert.equal(core.localStorage['key'], 'value');
 		})
+	}),
+	describe('#UpdateIfReady', function() {
+			it('should update feed when forced', function() {
+			var run = false;
+
+			// mock function for indicating a correct run
+			core.UpdateFeed = function () {run = true;}
+
+			// run test class
+			core.UpdateIfReady(true);
+			assert.equal(run, true);
+		})
 	})
 })
