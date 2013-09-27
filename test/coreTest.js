@@ -31,5 +31,22 @@ describe('core.js testsuite', function() {
 			core.UpdateIfReady(false);
 			assert.equal(run, true);
 		})
+	}),
+	describe('#UpdateIfReady', function() {
+			it('should NOT update feed when refreshed under next refresh limit', function() {
+			var run = false;
+			var interval = 60000;
+
+			// set lastRefresh time to limit (-1000, to be 1 second ahead)
+			core.localStorage["FS.LastRefresh"] = new Date().getTime() ;
+			core.localStorage["FS.RequestInterval"] = interval;
+
+			// mock function for indicating a correct run
+			core.UpdateFeed = function () {run = true;}
+
+			// run test class
+			core.UpdateIfReady(false);
+			assert.equal(run, false);
+		})
 	})
 })
