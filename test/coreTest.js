@@ -2,12 +2,16 @@ var assert = require("assert");
 var core = require("../src/core.js");
 
 describe('core.js testsuite', function() {
+
+	// -------------------- tests for setInitialOption
 	describe('#setInitialOption', function() {
 			it('should set the correct key in localStorage', function() {
 			core.SetInitialOption('key', 'value');
 			assert.equal(core.localStorage['key'], 'value');
 		})
 	}),
+
+	// -------------------- tests for updateIfReady
 	describe('#UpdateIfReady', function() {
 			it('should update feed when forced', function() {
 			var run = false;
@@ -37,8 +41,8 @@ describe('core.js testsuite', function() {
 			var run = false;
 			var interval = 60000;
 
-			// set lastRefresh time to limit (-1000, to be 1 second ahead)
-			core.localStorage["FS.LastRefresh"] = new Date().getTime() ;
+			// set lastRefresh time to limit
+			core.localStorage["FS.LastRefresh"] = new Date().getTime() - interval;
 			core.localStorage["FS.RequestInterval"] = interval;
 
 			// mock function for indicating a correct run
@@ -47,6 +51,23 @@ describe('core.js testsuite', function() {
 			// run test class
 			core.UpdateIfReady(false);
 			assert.equal(run, false);
+		})
+	}),
+	describe('#UpdateIfReady', function() {
+		it('should update feed when it is time for refreshing', function() {
+			var run = false;
+			var interval = 60000;
+
+			// set lastRefresh time to limit (one second more than the refresh interval)
+			core.localStorage["FS.LastRefresh"] = new Date().getTime() - interval - 1000;
+			core.localStorage["FS.RequestInterval"] = interval;
+
+			// mock function for indicating a correct run
+			core.UpdateFeed = function () {run = true;}
+
+			// run test class
+			core.UpdateIfReady(false);
+			assert.equal(run, true);
 		})
 	})
 })
