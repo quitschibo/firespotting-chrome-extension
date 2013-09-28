@@ -39,22 +39,22 @@ function UpdateFeed() {
 // function for parsing the rss result
 function onRssSuccess(doc) {
 	if (!doc) {
-		handleFeedParsingFailed("Not a valid feed.");
+		this.handleFeedParsingFailed("Not a valid feed.");
 		return;
 	}
-	links = parseFSLinks(doc);
+	links = this.parseFSLinks(doc);
 	if (localStorage['FS.Notifications'] == 'true') {
 		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
-			ShowLinkNotification(links[0]);
+			this.ShowLinkNotification(links[0]);
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
 		} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
 			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
 		}
 	}
-	SaveLinksToLocalStorage(links);
+	this.SaveLinksToLocalStorage(links);
 	if (buildPopupAfterResponse == true) {
-		buildPopup(links);
+		this.buildPopup(links);
 		buildPopupAfterResponse = false;
 	}
 	localStorage["FS.LastRefresh"] = (new Date()).getTime();
