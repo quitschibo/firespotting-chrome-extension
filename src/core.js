@@ -43,21 +43,38 @@ function onRssSuccess(doc) {
 		return;
 	}
 	links = this.parseFSLinks(doc);
-	if (localStorage['FS.Notifications'] == 'true') {
-		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
-			this.ShowLinkNotification(links[0]);
-			localStorage['FS.LastNotificationTitle'] = links[0].Title;
-		} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
-			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
-			localStorage['FS.LastNotificationTitle'] = links[0].Title;
-		}
-	}
+	this.handleLinkNotification(links);
+
 	this.SaveLinksToLocalStorage(links);
-	if (buildPopupAfterResponse == true) {
-		this.buildPopup(links);
-		buildPopupAfterResponse = false;
+	if (this.buildPopupAfterResponse == true) {
+		this.delegateBuildPopup(links);
+		this.buildPopupAfterResponse = false;
 	}
-	localStorage["FS.LastRefresh"] = (new Date()).getTime();
+	localStorage["FS.LastRefresh"] = new Date().getTime();
+}
+
+/**
+ * Function just for delegating to buildPopup() method on popup.js.
+ */
+function delegateBuildPopup(links) {
+	buildPopup(links);
+}
+
+/**
+ * Show notifications, if needed.
+ */
+function handleLinkNotification(link) {
+	if (localStorage['FS.Notifications'] == 'true') {
+		// don't do anything, when notification are off
+		return;
+	}
+	if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
+		this.ShowLinkNotification(links[0]);
+		localStorage['FS.LastNotificationTitle'] = links[0].Title;
+	} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
+		// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
+		localStorage['FS.LastNotificationTitle'] = links[0].Title;
+	}
 }
 
 function updateLastRefreshTime() {
@@ -227,7 +244,16 @@ function toggle(id) {
 		e.style.display = 'block';
 }
 // node.js boilerplate
+// TODO: add comments for indicating from which method each export is
 module.exports.SetInitialOption = SetInitialOption;
 module.exports.localStorage = localStorage;
 module.exports.UpdateIfReady = UpdateIfReady;
 module.exports.UpdateFeed = UpdateFeed;
+module.exports.onRssSuccess = onRssSuccess;
+module.exports.parseFSLinks = parseFSLinks;
+module.exports.ShowLinkNotification = ShowLinkNotification;
+module.exports.SaveLinksToLocalStorage = SaveLinksToLocalStorage;
+module.exports.handleLinkNotification = handleLinkNotification;
+module.exports.buildPopupAfterResponse = buildPopupAfterResponse;
+module.exports.delegateBuildPopup = delegateBuildPopup;
+module.exports.useForce = useForce;
