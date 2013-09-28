@@ -14,10 +14,10 @@ describe('core.js testsuite', function() {
 	// -------------------- tests for updateIfReady
 	describe('#UpdateIfReady', function() {
 			it('should update feed when forced', function() {
-			var run = false;
+			run = false;
 
 			// mock function for indicating a correct run
-			core.UpdateFeed = function () {run = true;}
+			core.UpdateFeed = function () { run = true; }
 
 			// run test class
 			core.UpdateIfReady(true);
@@ -26,10 +26,10 @@ describe('core.js testsuite', function() {
 	}),
 	describe('#UpdateIfReady', function() {
 			it('should update feed when no force and no last refresh', function() {
-			var run = false;
+			run = false;
 
 			// mock function for indicating a correct run
-			core.UpdateFeed = function () {run = true;}
+			core.UpdateFeed = function () { run = true; }
 
 			// run test class
 			core.UpdateIfReady(false);
@@ -38,15 +38,15 @@ describe('core.js testsuite', function() {
 	}),
 	describe('#UpdateIfReady', function() {
 			it('should NOT update feed when refreshed under next refresh limit', function() {
-			var run = false;
-			var interval = 60000;
+			run = false;
+			interval = 60000;
 
-			// set lastRefresh time to limit
-			core.localStorage["FS.LastRefresh"] = new Date().getTime() - interval;
+			// set lastRefresh time to limit (one second less than the refresh interval)
+			core.localStorage["FS.LastRefresh"] = new Date().getTime() - interval + 1000;
 			core.localStorage["FS.RequestInterval"] = interval;
 
 			// mock function for indicating a correct run
-			core.UpdateFeed = function () {run = true;}
+			core.UpdateFeed = function () { run = true; }
 
 			// run test class
 			core.UpdateIfReady(false);
@@ -55,19 +55,106 @@ describe('core.js testsuite', function() {
 	}),
 	describe('#UpdateIfReady', function() {
 		it('should update feed when it is time for refreshing', function() {
-			var run = false;
-			var interval = 60000;
+			run = false;
+			interval = 60000;
 
 			// set lastRefresh time to limit (one second more than the refresh interval)
 			core.localStorage["FS.LastRefresh"] = new Date().getTime() - interval - 1000;
 			core.localStorage["FS.RequestInterval"] = interval;
 
 			// mock function for indicating a correct run
-			core.UpdateFeed = function () {run = true;}
+			core.UpdateFeed = function () { run = true; }
 
 			// run test class
 			core.UpdateIfReady(false);
 			assert.equal(run, true);
+		})
+	}),
+
+	// -------------------- tests for onRssSuccess
+	describe('#onRssSuccess', function() {
+		it('should call handleFeedParsingFailed if rssFeed null', function() {
+			run = false;
+			core.handleFeedParsingFailed = function () { run = true; }
+
+			// call test method
+			core.onRssSuccess();
+			assert.equal(run, true);
+		})
+	}),
+	describe('#onRssSuccess', function() {
+		it('should call handleFeedParsingFailed if rssFeed null', function() {
+			run = false;
+			core.handleFeedParsingFailed = function () { run = true; }
+
+			// call test method
+			core.onRssSuccess();
+			assert.equal(run, true);
+		})
+	}),
+	describe('#onRssSuccess', function() {
+		it('method should parse links', function() {
+			parseLinksCalled = false;
+			core.parseFSLinks = function () { parseLinksCalled = true; }
+			core.buildPopupAfterResponse = true;
+
+			// all methods should not do anything. they're isolated for test purposes
+			core.handleLinkNotification = function () { /* do nothing */ }
+			core.SaveLinksToLocalStorage = function () { /* do nothing */ }
+			core.delegateBuildPopup = function () { /* do nothing */ }
+
+			// call test method
+			core.onRssSuccess("test rss feed");
+			assert.equal(parseLinksCalled, true);
+			assert.equal(core.buildPopupAfterResponse, false);
+			assert.equal(core.localStorage["FS.LastRefresh"], new Date().getTime());
+		})
+	}),
+
+	// -------------------- tests for handleLinkNotification
+	describe('#handleLinkNotification', function() {
+		it('do nothing, when notifications are off', function() {
+			core.localStorage['FS.Notifications'] = 'false';
+
+			// call test method
+			core.handleLinkNotification("test rss feed");
+		})
+	}),
+	describe('#handleLinkNotification', function() {
+		it('show notification when not forced and not shown actual title', function() {
+			core.localStorage['FS.Notifications'] = 'true';
+
+			// not shown the actual title
+			core.localStorage['FS.LastNotificationTitle'] = "old Title";
+			testEntry = { Title: "testTitle" };
+			link = [];
+			link[0] = testEntry;
+
+			// call test method
+			core.handleLinkNotification(link);
+		})
+	}),
+	describe('#handleLinkNotification', function() {
+		it('show notification when not forced and last shown title is null', function() {
+			core.localStorage['FS.Notifications'] = 'true';
+
+			// not shown the actual title
+			core.localStorage['FS.LastNotificationTitle'] = null;
+
+			// call test method
+			core.handleLinkNotification("test rss feed");
+		})
+	}),
+	describe('#handleLinkNotification', function() {
+		it('do not show linkNotification when used first time', function() {
+			core.localStorage['FS.Notifications'] = 'true';
+			core.useForce = true;
+
+			// not shown the actual title
+			core.localStorage['FS.LastNotificationTitle'] = null;
+
+			// call test method
+			core.handleLinkNotification("test rss feed");
 		})
 	})
 })
