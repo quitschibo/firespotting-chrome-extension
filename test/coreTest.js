@@ -75,7 +75,7 @@ describe('core.js testsuite', function() {
 	describe('#onRssSuccess', function() {
 		it('should call handleFeedParsingFailed if rssFeed null', function() {
 			run = false;
-			core.handleFeedParsingFailed = function () { run = true; }
+			core.coreObject.handleFeedParsingFailed = function () { run = true; }
 
 			// call test method
 			core.onRssSuccess();
@@ -95,12 +95,12 @@ describe('core.js testsuite', function() {
 	describe('#onRssSuccess', function() {
 		it('method should parse links', function() {
 			parseLinksCalled = false;
-			core.parseFSLinks = function () { parseLinksCalled = true; }
+			core.coreObject.parseFSLinks = function () { parseLinksCalled = true; }
 			core.buildPopupAfterResponse = true;
 
 			// all methods should not do anything. they're isolated for test purposes
-			core.handleLinkNotification = function () { /* do nothing */ }
-			core.SaveLinksToLocalStorage = function () { /* do nothing */ }
+			core.coreObject.handleLinkNotification = function () { /* do nothing */ }
+			core.coreObject.SaveLinksToLocalStorage = function () { /* do nothing */ }
 			core.delegateBuildPopup = function () { /* do nothing */ }
 
 			// call test method
@@ -117,7 +117,7 @@ describe('core.js testsuite', function() {
 			core.localStorage['FS.Notifications'] = 'false';
 
 			// call test method
-			core.handleLinkNotification("test rss feed");
+			core.coreObject.handleLinkNotification("test rss feed");
 		})
 	}),
 	describe('#handleLinkNotification', function() {
