@@ -33,7 +33,7 @@ function UpdateIfReady(force) {
 
 // function calls rss feed
 function UpdateFeed() {
-	$.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:onRssError, async: false});
+	$.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:coreObject.onRssError, async: false});
 }
 
 // function for parsing the rss result
