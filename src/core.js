@@ -147,18 +147,6 @@ var coreObject = {
 		localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
 	},
 
-	parseXml: function (xml) {
-		var xmlDoc;
-		try {
-			xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
-			xmlDoc.async = false;
-			xmlDoc.loadXML(xml);
-		} catch (e) {
-			xmlDoc = (new DOMParser).parseFromString(xml, 'text/xml');
-		}
-		return xmlDoc;
-	},
-
 	parseFSLinks: function (doc) {
 		var entries = doc.getElementsByTagName('entry');
 		if (entries.length == 0) {
