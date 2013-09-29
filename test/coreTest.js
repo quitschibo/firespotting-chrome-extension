@@ -156,5 +156,28 @@ describe('core.js testsuite', function() {
 			// call test method
 			core.handleLinkNotification("test rss feed");
 		})
+	}),
+
+	// -------------------- tests for RetrieveLinksFromLocalStorage
+	describe('#RetrieveLinksFromLocalStorage', function() {
+		it('return null if there is no link count in localStorage', function() {
+			core.localStorage['FS.NumLinks'] = null;
+
+			// call test method
+			result = core.RetrieveLinksFromLocalStorage();
+			assert.equal(result, null);
+		})
+	}),
+	describe('#RetrieveLinksFromLocalStorage', function() {
+		it('try to retrieve some links', function() {
+			core.localStorage['FS.NumLinks'] = '2';
+			core.localStorage['FS.Link0'] = '{"Title":"0"}';
+			core.localStorage['FS.Link1'] = '{"Title":"1"}';
+
+			// call test method
+			result = core.RetrieveLinksFromLocalStorage();
+			assert.equal(result[0].Title, "0");
+			assert.equal(result[1].Title, "1");
+		})
 	})
 })

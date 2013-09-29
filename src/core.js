@@ -262,3 +262,4 @@ module.exports.buildPopupAfterResponse = buildPopupAfterResponse;
 module.exports.delegateBuildPopup = delegateBuildPopup;
 module.exports.useForce = useForce;
 module.exports.coreObject = coreObject;
+module.exports.RetrieveLinksFromLocalStorage = RetrieveLinksFromLocalStorage;
