@@ -105,22 +105,6 @@ function openLink() {
 	openUrl(this.href, (localStorage['FS.BackgroundTabs'] == 'false'));
 }
 
-function printTime(d) {
-	var hour   = d.getHours();
-	var minute = d.getMinutes();
-	var ap = "AM";
-	if (hour   > 11) { ap = "PM";             }
-	if (hour   > 12) { hour = hour - 12;      }
-	if (hour   == 0) { hour = 12;             }
-	if (minute < 10) { minute = "0" + minute; }
-	var timeString = hour +
-		':' +
-		minute +
-		" " +
-		ap;
-	return timeString;
-}
-
 var coreObject = {
 	/**
 	 * Show notifications, if needed.
@@ -141,15 +125,6 @@ var coreObject = {
 
 	updateLastRefreshTime: function () {
 		localStorage["FS.LastRefresh"] = (new Date()).getTime();
-	},
-
-	DebugMessage: function (message) {
-		var notification = webkitNotifications.createNotification(
-			"bulb18.png",
-			"DEBUG",
-			printTime(new Date()) + " :: " + message
-		);
-		notification.show();
 	},
 
 	ShowLinkNotification: function (link) {
