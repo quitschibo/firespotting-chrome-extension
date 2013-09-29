@@ -202,9 +202,9 @@ var coreObject = {
 	},
 
 	SaveLinksToLocalStorage: function (links) {
-		this.localStorage["FS.NumLinks"] = links.length;
+		localStorage["FS.NumLinks"] = links.length;
 		for (var i=0; i<links.length; i++) {
-			this.localStorage["FS.Link" + i] = JSON.stringify(links[i]);
+			localStorage["FS.Link" + i] = JSON.stringify(links[i]);
 		}
 	},
 
