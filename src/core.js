@@ -123,10 +123,6 @@ var coreObject = {
 		}
 	},
 
-	updateLastRefreshTime: function () {
-		localStorage["FS.LastRefresh"] = (new Date()).getTime();
-	},
-
 	ShowLinkNotification: function (link) {
 		var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
 
@@ -206,9 +202,9 @@ var coreObject = {
 	},
 
 	SaveLinksToLocalStorage: function (links) {
-		localStorage["FS.NumLinks"] = links.length;
+		this.localStorage["FS.NumLinks"] = links.length;
 		for (var i=0; i<links.length; i++) {
-			localStorage["FS.Link" + i] = JSON.stringify(links[i]);
+			this.localStorage["FS.Link" + i] = JSON.stringify(links[i]);
 		}
 	},
 

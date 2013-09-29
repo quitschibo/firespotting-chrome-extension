@@ -127,7 +127,7 @@ describe('core.js testsuite', function() {
 			// not shown the actual title
 			core.localStorage['FS.LastNotificationTitle'] = "old Title";
 			testEntry = { Title: "testTitle" };
-			link = [];
+			link = new Array();
 			link[0] = testEntry;
 
 			// call test method
@@ -182,12 +182,16 @@ describe('core.js testsuite', function() {
 	}),
 
 	// -------------------- tests for RetrieveLinksFromLocalStorage
-		describe('#handleLinkNotification', function() {
-			it('do nothing when notifications are switched off', function() {
-				core.localStorage['FS.Notifications'] = "false";
+	describe('#SaveLinksToLocalStorage', function() {
+		it('test saving with links', function() {
+			testEntry = { Title : "This is a test Title" };
+			testEntry2 = { Title : "This is another test Title" };
+			link = [testEntry, testEntry2]
 
-				// call test method
-				result = core.coreObject.handleLinkNotification();
-			})
+			core.SaveLinksToLocalStorage(link);
+			assert.equal(core.localStorage["FS.NumLinks"], 2);
+			assert.equal(core.localStorage["FS.Link0"], '{"Title":"This is a test Title"}');
+			assert.equal(core.localStorage["FS.Link1"], '{"Title":"This is another test Title"}');
 		})
+	})
 })
