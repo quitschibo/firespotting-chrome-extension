@@ -156,13 +156,13 @@ var coreObject = {
 		var links = new Array();
 		for (var i=0; i< count; i++) {
 			item = entries.item(i);
-			var hnLink = new Object();
+			var fsLink = new Object();
 			//Grab the title
 			var itemTitle = item.getElementsByTagName('title')[0];
 			if (itemTitle) {
-				hnLink.Title = itemTitle.textContent;
+				fsLink.Title = itemTitle.textContent;
 			} else {
-				hnLink.Title = "Unknown Title";
+				fsLink.Title = "Unknown Title";
 			}
 
 			//Grab the Link
@@ -171,20 +171,20 @@ var coreObject = {
 				itemLink = item.getElementsByTagName('comments')[0];
 			}
 			if (itemLink) {
-				hnLink.Link = itemLink.textContent;
+				fsLink.Link = itemLink.textContent;
 			} else {
-				hnLink.Link = '';
+				fsLink.Link = '';
 			}
 
 			//Grab the comments link
 			var commentsLink = item.getElementsByTagName('comments')[0];
 			if (commentsLink) {
-				hnLink.CommentsLink = commentsLink.textContent;
+				fsLink.CommentsLink = commentsLink.textContent;
 			} else {
-				hnLink.CommentsLink = '';
+				fsLink.CommentsLink = '';
 			}
 
-			links.push(hnLink);
+			links.push(fsLink);
 		}
 		return links;
 	},
