@@ -110,7 +110,7 @@ var coreObject = {
 	 * Show notifications, if needed.
 	 */
 	handleLinkNotification: function (link) {
-		if (localStorage['FS.Notifications'] == 'true') {
+		if (localStorage['FS.Notifications'] != 'true') {
 			// don't do anything, when notification are off
 			return;
 		}
