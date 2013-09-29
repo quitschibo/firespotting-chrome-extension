@@ -228,7 +228,6 @@ module.exports.onRssSuccess = onRssSuccess;
 module.exports.parseFSLinks = coreObject.parseFSLinks;
 module.exports.ShowLinkNotification = coreObject.ShowLinkNotification;
 module.exports.SaveLinksToLocalStorage = coreObject.SaveLinksToLocalStorage;
-module.exports.handleLinkNotification = coreObject.handleLinkNotification;
 module.exports.buildPopupAfterResponse = buildPopupAfterResponse;
 module.exports.delegateBuildPopup = delegateBuildPopup;
 module.exports.useForce = useForce;
