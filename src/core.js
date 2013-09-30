@@ -109,7 +109,7 @@ var coreObject = {
 	/**
 	 * Show notifications, if needed.
 	 */
-	handleLinkNotification: function (link) {
+	handleLinkNotification: function (links) {
 		if (localStorage['FS.Notifications'] != 'true') {
 			// don't do anything, when notification are off
 			return;
@@ -221,3 +221,4 @@ module.exports.delegateBuildPopup = delegateBuildPopup;
 module.exports.useForce = useForce;
 module.exports.coreObject = coreObject;
 module.exports.RetrieveLinksFromLocalStorage = RetrieveLinksFromLocalStorage;
+module.exports.handleLinkNotification = coreObject.handleLinkNotification;

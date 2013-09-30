@@ -117,7 +117,7 @@ describe('core.js testsuite', function() {
 			core.localStorage['FS.Notifications'] = 'false';
 
 			// call test method
-			core.coreObject.handleLinkNotification("test rss feed");
+			core.handleLinkNotification("test rss feed");
 		})
 	}),
 	describe('#handleLinkNotification', function() {
@@ -140,9 +140,17 @@ describe('core.js testsuite', function() {
 
 			// not shown the actual title
 			core.localStorage['FS.LastNotificationTitle'] = null;
+			core.useForce = false;
+
+			testEntry = { Title: "testTitle" };
+			link = new Array();
+			link[0] = testEntry;
+
+			core.ShowLinkNotification = function()  { /*do nothing*/ }
 
 			// call test method
-			core.coreObject.handleLinkNotification("test rss feed");
+			core.handleLinkNotification(link);
+			assert.equal(core.localStorage['FS.LastNotificationTitle'], testEntry.Title);
 		})
 	}),
 	describe('#handleLinkNotification', function() {
@@ -154,7 +162,7 @@ describe('core.js testsuite', function() {
 			core.localStorage['FS.LastNotificationTitle'] = null;
 
 			// call test method
-			core.coreObject.handleLinkNotification("test rss feed");
+			core.handleLinkNotification("test rss feed");
 		})
 	}),
 
