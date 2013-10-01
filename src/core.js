@@ -152,10 +152,7 @@ var coreObject = {
 	},
 
 	parseFSLinks: function (doc) {
-		var entries = doc.getElementsByTagName('entry');
-		if (entries.length == 0) {
-			entries = doc.getElementsByTagName('item');
-		}
+		var entries = this.extractEntries(doc);
 		var count = Math.min(entries.length, maxFeedItems);
 		var links = new Array();
 		for (var i=0; i< count; i++) {
@@ -191,6 +188,14 @@ var coreObject = {
 			links.push(fsLink);
 		}
 		return links;
+	},
+
+	extractEntries: function (doc) {
+		entries = doc.getElementsByTagName('entry');
+		if (entries.length == 0) {
+			entries = doc.getElementsByTagName('item');
+		}
+		return entries;
 	},
 
 	SaveLinksToLocalStorage: function (links) {

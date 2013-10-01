@@ -223,5 +223,37 @@ describe('core.js testsuite', function() {
 			assert.equal(createWebNotificationCalled, true);
 			assert.equal(showCalled, true);
 		})
+	}),
+
+	// -------------------- tests for extractEntries
+	describe('#extractEntries', function() {
+		it('check entries', function() {
+			// 1. check tagName == entry
+			entriesMock = new Object();
+			entriesMock.getElementsByTagName = function(tagName) {
+				if (tagName == "entry") {
+					return "testEntry";
+				}
+			}
+
+			// call test method
+			result = core.coreObject.extractEntries(entriesMock);
+			// 2. assert tagName == entry
+			assert.equal(result, "testEntry");
+
+			// 3. check tagName = item
+			entriesMock.getElementsByTagName = function(tagName) {
+				if (tagName == "item") {
+					return "testItem";
+				} else if (tagName == "entry") {
+					return new Array();
+				}
+			}
+
+			// call test method
+			result = core.coreObject.extractEntries(entriesMock);
+			// 4. assert tagName = item
+			assert.equal(result, "testItem");
+		})
 	})
 })
