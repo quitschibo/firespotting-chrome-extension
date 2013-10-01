@@ -124,7 +124,7 @@ var coreObject = {
 	},
 
 	ShowLinkNotification: function (link) {
-		var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
+		var notification = this.createWebNotification(link);
 
 		// notification onClick function
 		notification.addEventListener("click", function () {
@@ -137,6 +137,10 @@ var coreObject = {
 			setTimeout(function() { notification.close(); }, localStorage["FS.NotificationTimeout"]);
 		}
 		notification.show();
+	},
+
+	createWebNotification: function (link) {
+		return webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
 	},
 
 	onRssError: function (xhr, type, error) {
@@ -222,3 +226,4 @@ module.exports.useForce = useForce;
 module.exports.coreObject = coreObject;
 module.exports.RetrieveLinksFromLocalStorage = RetrieveLinksFromLocalStorage;
 module.exports.handleLinkNotification = coreObject.handleLinkNotification;
+module.exports.createWebNotification = coreObject.createWebNotification;

@@ -201,5 +201,27 @@ describe('core.js testsuite', function() {
 			assert.equal(core.localStorage["FS.Link0"], '{"Title":"This is a test Title"}');
 			assert.equal(core.localStorage["FS.Link1"], '{"Title":"This is another test Title"}');
 		})
+	}),
+
+	// -------------------- tests for ShowLinkNotification
+	describe('#ShowLinkNotification', function() {
+		it('check, if createWebNotification and show() is called', function() {
+			createWebNotificationCalled = false;
+			showCalled = false;
+
+			core.localStorage["FS.NotificationTimeout"] = "infinity"
+
+			notificationMock = new Object();
+			notificationMock.show = function() { showCalled = true; }
+			notificationMock.addEventListener = function() { /* do nothing */ }
+			notificationMock.close = function() { /* do nothing */ }
+
+			core.coreObject.createWebNotification = function() { createWebNotificationCalled = true; return notificationMock; }
+
+			// call test method
+			core.coreObject.ShowLinkNotification();
+			assert.equal(createWebNotificationCalled, true);
+			assert.equal(showCalled, true);
+		})
 	})
 })
