@@ -158,11 +158,16 @@ describe('core.js testsuite', function() {
 			core.localStorage['FS.Notifications'] = 'true';
 			core.useForce = true;
 
+			testEntry = { Title: "testTitle" };
+			link = new Array();
+			link[0] = testEntry;
+
 			// not shown the actual title
 			core.localStorage['FS.LastNotificationTitle'] = null;
 
 			// call test method
-			core.handleLinkNotification("test rss feed");
+			core.handleLinkNotification(link);
+			assert.equal(core.localStorage['FS.LastNotificationTitle'], testEntry.Title);
 		})
 	}),
 
