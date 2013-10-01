@@ -255,5 +255,50 @@ describe('core.js testsuite', function() {
 			// 4. assert tagName = item
 			assert.equal(result, "testItem");
 		})
+	}),
+
+	// -------------------- tests for parseFSLinks
+	describe('#parseFSLinks', function() {
+		it('check parsing of fs links', function() {
+			itemMock = new Object();
+			itemMock.getElementsByTagName = function(tagName) {
+				if (tagName == 'title') {
+					titleMock = new Object();
+					titleMock.textContent = "title";
+
+					titleArray = new Array();
+					titleArray[0] = titleMock;
+					return titleArray;
+				} else if (tagName == 'link') {
+					linkMock = new Object();
+					linkMock.textContent = "link"
+
+					linkArray = new Array();
+					linkArray[0] = linkMock;
+					return linkArray;
+				} else if (tagName == 'comments') {
+					commentsMock = new Object();
+					commentsMock.textContent = "comments";
+
+					commentsArray = new Array();
+					commentsArray[0] = commentsMock;
+					return commentsArray;
+				}
+			}
+
+			entriesMock = new Object();
+			entriesMock.length = 1;
+			entriesMock.item = function() { return itemMock; }
+
+			core.extractEntries = function() {
+				return entriesMock;
+			}
+
+			// call test method
+			result = core.parseFSLinks();
+			assert.equal(result[0].Title, "title");
+			assert.equal(result[0].Link, "link");
+			assert.equal(result[0].CommentsLink, "comments");
+		})
 	})
 })
