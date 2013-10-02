@@ -234,3 +234,5 @@ module.exports.handleLinkNotification = coreObject.handleLinkNotification;
 module.exports.createWebNotification = coreObject.createWebNotification;
 module.exports.extractEntries = coreObject.extractEntries;
 module.exports.toggle = coreObject.toggle;
+module.exports.handleFeedParsingFailed = coreObject.handleFeedParsingFailed;
+module.exports.retryMilliseconds = retryMilliseconds;
