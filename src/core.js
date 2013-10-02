@@ -114,10 +114,10 @@ var coreObject = {
 			// don't do anything, when notification are off
 			return;
 		}
-		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
+		if (!this.useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
 			this.ShowLinkNotification(links[0]);
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
-		} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
+		} else if (this.useForce && localStorage['FS.LastNotificationTitle'] == null) {
 			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
 		}

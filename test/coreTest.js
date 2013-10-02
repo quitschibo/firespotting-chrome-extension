@@ -146,15 +146,17 @@ describe('core.js testsuite', function() {
 			link = new Array();
 			link[0] = testEntry;
 
-			core.ShowLinkNotification = function()  { /*do nothing*/ }
+			core.ShowLinkNotification = function()  { notificationShowed = true }
 
 			// call test method
 			core.handleLinkNotification(link);
 			assert.equal(core.localStorage['FS.LastNotificationTitle'], testEntry.Title);
+			assert.equal(notificationShowed, true);
 		})
 	}),
 	describe('#handleLinkNotification', function() {
 		it('do not show linkNotification when used first time', function() {
+			notificationShowed = false;
 			core.localStorage['FS.Notifications'] = 'true';
 			core.useForce = true;
 
@@ -164,10 +166,12 @@ describe('core.js testsuite', function() {
 
 			// not shown the actual title
 			core.localStorage['FS.LastNotificationTitle'] = null;
+			core.ShowLinkNotification = function()  { notificationShowed = true }
 
 			// call test method
 			core.handleLinkNotification(link);
 			assert.equal(core.localStorage['FS.LastNotificationTitle'], testEntry.Title);
+			assert.equal(notificationShowed, false);
 		})
 	}),
 
