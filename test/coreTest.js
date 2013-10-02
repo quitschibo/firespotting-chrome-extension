@@ -340,6 +340,7 @@ describe('core.js testsuite', function() {
 		})
 	}),
 
+	// -------------------- tests for toggle
 	describe('#toggle', function() {
 		it('html element should toggle between display:none and display:block', function() {
 			eMock = new Object();
