@@ -233,3 +233,4 @@ module.exports.RetrieveLinksFromLocalStorage = RetrieveLinksFromLocalStorage;
 module.exports.handleLinkNotification = coreObject.handleLinkNotification;
 module.exports.createWebNotification = coreObject.createWebNotification;
 module.exports.extractEntries = coreObject.extractEntries;
+module.exports.toggle = coreObject.toggle;

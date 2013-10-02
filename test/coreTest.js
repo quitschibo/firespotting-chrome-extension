@@ -309,5 +309,55 @@ describe('core.js testsuite', function() {
 			assert.equal(result[0].Link, "link");
 			assert.equal(result[0].CommentsLink, "comments");
 		})
+	}),
+
+	describe('#parseFSLinks', function() {
+		it('check parsing of fs links when there is no content (fallback test)', function() {
+			itemMock = new Object();
+			itemMock.getElementsByTagName = function(tagName) {
+				if (tagName == 'title') {
+					return new Array();
+				} else if (tagName == 'link') {
+					return new Array();
+				} else if (tagName == 'comments') {
+					return new Array();
+				}
+			}
+
+			entriesMock = new Object();
+			entriesMock.length = 1;
+			entriesMock.item = function() { return itemMock; }
+
+			core.extractEntries = function() {
+				return entriesMock;
+			}
+
+			// call test method
+			result = core.parseFSLinks();
+			assert.equal(result[0].Title, "Unknown Title");
+			assert.equal(result[0].Link, "");
+			assert.equal(result[0].CommentsLink, "");
+		})
+	}),
+
+	describe('#toggle', function() {
+		it('html element should toggle between display:none and display:block', function() {
+			eMock = new Object();
+			eMock.style = new Object();
+			eMock.style.display = 'block';
+
+			document = new Object();
+			document.getElementById = function () {
+				return eMock;
+			}
+
+			// toggle to none
+			core.toggle();
+			assert.equal(eMock.style.display, 'none');
+
+			// and toggle back to block
+			core.toggle();
+			assert.equal(eMock.style.display, 'block');
+		})
 	})
 })
