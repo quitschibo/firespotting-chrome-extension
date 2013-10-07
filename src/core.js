@@ -236,3 +236,6 @@ module.exports.extractEntries = coreObject.extractEntries;
 module.exports.toggle = coreObject.toggle;
 module.exports.handleFeedParsingFailed = coreObject.handleFeedParsingFailed;
 module.exports.retryMilliseconds = retryMilliseconds;
+module.exports.openUrl = openUrl;
+module.exports.hideElement = hideElement;
+module.exports.showElement = showElement;

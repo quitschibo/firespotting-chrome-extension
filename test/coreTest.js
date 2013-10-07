@@ -360,5 +360,79 @@ describe('core.js testsuite', function() {
 			core.toggle();
 			assert.equal(eMock.style.display, 'block');
 		})
+	}),
+
+	// -------------------- tests for openUrl
+	describe('#openUrl', function() {
+		it('check, if tab creation happens only if the url starts with http(s) param', function() {
+			tabCreated = false;
+
+			chrome = new Object();
+			chrome.tabs = new Object();
+			chrome.tabs.create = function () {
+				tabCreated = true;
+			}
+
+			// check, if the tab WILL NOT created when called without http(s) address
+			core.openUrl("www.example.com");
+
+			assert.equal(tabCreated, false);
+
+			// check with http
+			core.openUrl("http://www.example.com");
+
+			assert.equal(tabCreated, true);
+
+			// reset tab creation
+			tabCreated = false;
+
+			core.openUrl("http://www.example.com");
+
+			assert.equal(tabCreated, true);
+		})
+	}),
+
+	// -------------------- tests for hideElement
+	describe('#hideElement', function() {
+		it('check hiding of element', function() {
+			id = "testElement"
+
+			eMock = new Object();
+			eMock.style = new Object();
+			eMock.style.display = '';
+
+			document = new Object();
+			document.getElementById = function(name) {
+				if (name == id) {
+					return eMock;
+				}
+			}
+
+			core.hideElement(id);
+
+			assert.equal(eMock.style.display, 'none');
+		})
+	}),
+
+	// -------------------- tests for showElement
+	describe('#showElement', function() {
+		it('check showing of element', function() {
+			id = "testElement"
+
+			eMock = new Object();
+			eMock.style = new Object();
+			eMock.style.display = '';
+
+			document = new Object();
+			document.getElementById = function(name) {
+				if (name == id) {
+					return eMock;
+				}
+			}
+
+			core.showElement(id);
+
+			assert.equal(eMock.style.display, 'block');
+		})
 	})
 })
