@@ -1,7 +1,3 @@
-window.onload = function(){
-	main();
-	setupEvents();
-};
 function setupEvents() {
 	$('#submitLink').click(submitCurrentTab);
 	$('#refresh').click(refreshLinks);
@@ -15,7 +11,7 @@ function main() {
 		buildPopupAfterResponse = true;
 		UpdateFeed();
 	} else {
-		buildPopup(RetrieveLinksFromLocalStorage());
+		this.buildPopup(RetrieveLinksFromLocalStorage());
   }
 }
 
@@ -70,7 +66,6 @@ function buildPopup(links) {
 		});
 	}
 }
-
 function refreshLinks() {
 	console.log('refreshing!');
 	toggle("container");
@@ -97,3 +92,6 @@ String.prototype.endsWith = function(suffix) {
 	return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+// node.js boilerplate
+module.exports.main = main;
+module.exports.buildPopup = buildPopup;
