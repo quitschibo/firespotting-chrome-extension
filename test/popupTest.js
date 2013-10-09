@@ -29,6 +29,7 @@ describe('popup.js testsuite', function() {
 				buildStorage = true;
 			}
 
+			// run test method a second time to check the buildPopup flow
 			popup.main();
 
 			assert.equal(buildStorage, true);
