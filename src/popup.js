@@ -95,3 +95,4 @@ String.prototype.endsWith = function(suffix) {
 // node.js boilerplate
 module.exports.main = main;
 module.exports.buildPopup = buildPopup;
+module.exports.refreshLinks = refreshLinks;
