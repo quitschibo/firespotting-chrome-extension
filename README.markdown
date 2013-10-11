@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/quitschibo/firespotting-chrome-extension/badge.png?branch=master)](https://coveralls.io/r/quitschibo/firespotting-chrome-extension?branch=master)
 
 This is an extension for Google Chrome that displays the latest ideas from [Firespotting](http://firespotting.com). It also features desktop notifications of the current #1 idea.
+It follows the philosophy, that you don't have to open a tab or a additional window to get updated.
 
 This is a fork from Adam Albrecht's Hacker News Chrome Extension - Thank you very much.
 
