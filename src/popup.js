@@ -71,7 +71,7 @@ function refreshLinks() {
 	toggle("container");
 	toggle("spinner");
 	var linkTable = document.getElementById("feed");
-	while(linkTable.hasChildNodes()) linkTable.removeChild(linkTable.firstChild); //Remove all current links
+	while(linkTable.hasChildNodes()) linkTable.removeChild(linkTable.firstChild()); //Remove all current links
 	buildPopupAfterResponse = true;
 	UpdateIfReady(true);
 	updateLastRefreshTime();
