@@ -86,5 +86,16 @@ describe('popup.js testsuite', function() {
 			assert.equal(updated, true);
 			assert.equal(refreshed, true);
 		})
+	}),
+
+	// -------------------- tests for endsWith
+	describe('#endsWith', function() {
+		it('check if function works correctly for different strings', function() {
+			assert.equal("Test".endsWith("est"), true);
+			assert.equal("Test".endsWith("Test"), true);
+			assert.equal("Test".endsWith("TesT"), false);
+			assert.equal("Test 12345 !§$%&".endsWith("12345 !§$%&"), true);
+			assert.equal("Test 12345 !§$%&".endsWith("12345!§$%&"), false);
+		})
 	})
 })

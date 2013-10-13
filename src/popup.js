@@ -66,6 +66,7 @@ function buildPopup(links) {
 		});
 	}
 }
+
 function refreshLinks() {
 	console.log('refreshing!');
 	toggle("container");
