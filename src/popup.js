@@ -77,16 +77,6 @@ function refreshLinks() {
 	updateLastRefreshTime();
 }
 
-//Submit the current tab
-function submitCurrentTab() {
-	chrome.windows.getCurrent(function(win){
-		chrome.tabs.getSelected(win.id, function(tab){
-			var submit_url = "http://news.ycombinator.com/submitlink?u=" + encodeURIComponent(tab.url) + "&t=" + encodeURIComponent(tab.title);
-			openUrl(submit_url, true);
-		});
-	});
-}
-
 // awesome function provided by http://stackoverflow.com/questions/280634/endswith-in-javascript - Thanks a lot!
 String.prototype.endsWith = function(suffix) {
 	return this.indexOf(suffix, this.length - suffix.length) !== -1;
