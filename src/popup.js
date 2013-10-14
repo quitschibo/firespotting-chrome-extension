@@ -1,5 +1,4 @@
 function setupEvents() {
-	$('#submitLink').click(submitCurrentTab);
 	$('#refresh').click(refreshLinks);
 	$('a#options').click(function(){
 		console.log("CLICKED THE OPTIONS LINK");
