@@ -83,16 +83,6 @@ describe('core.js testsuite', function() {
 		})
 	}),
 	describe('#onRssSuccess', function() {
-		it('should call handleFeedParsingFailed if rssFeed null', function() {
-			run = false;
-			core.handleFeedParsingFailed = function () { run = true; }
-
-			// call test method
-			core.onRssSuccess();
-			assert.equal(run, true);
-		})
-	}),
-	describe('#onRssSuccess', function() {
 		it('method should parse links', function() {
 			parseLinksCalled = false;
 			core.coreObject.parseFSLinks = function () { parseLinksCalled = true; }
