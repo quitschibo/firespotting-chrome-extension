@@ -99,7 +99,7 @@ describe('popup.js testsuite', function() {
 		})
 	}),
 
-	// -------------------- tests for endsWith
+	// -------------------- tests for buildPopup
 	describe('#buildPopup', function() {
 		fsLink = new Object();
 		fsLink.Title = "fslink.Title";
