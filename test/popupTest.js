@@ -97,5 +97,40 @@ describe('popup.js testsuite', function() {
 			assert.equal("Test 12345 !§$%&".endsWith("12345 !§$%&"), true);
 			assert.equal("Test 12345 !§$%&".endsWith("12345!§$%&"), false);
 		})
+	}),
+
+	// -------------------- tests for endsWith
+	describe('#buildPopup', function() {
+		fsLink = new Object();
+		fsLink.Title = "fslink.Title";
+		fsLink.Link = "fslink.Link";
+		fsLink.CommentsLink = "fslink.CommentsLink";
+
+		linkList = new Array();
+		linkList.push(fsLink);
+
+		domElement = new Object();
+		domElement.addEventListener = function() {}
+		domElement.className = "class";
+		domElement.innerText = "text";
+		domElement.appendChild = function(element) {
+			// check title element
+			if (element.className == "link_title") {
+				assert.equal(element.innerText, fsLink.Title);
+			}
+		}
+
+		// mock dom element
+		document = new Object();
+		document.getElementById = function () { return domElement; }
+		document.createElement = function() { return domElement; }
+
+		// some mocks
+		openLinkFront = new Object();
+		openLink = new Object();
+		localStorage = new Array();
+
+		// run test method
+		popup.buildPopup(linkList);
 	})
 })
