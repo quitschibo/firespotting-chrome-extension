@@ -9,10 +9,10 @@ It follows the philosophy, that you don't have to open a tab or a additional win
 This is a fork from Adam Albrecht's Hacker News Chrome Extension - Thank you very much.
 
 This is how it looks like:
-![](https://raw.github.com/quitschibo/firespotting-chrome-extension/master/webstore/webstore1280x800.png)
+![](webstore/webstore1280x800.png?raw=true)
 
 ## How to install
 Just take the extension from [google chrome store](https://chrome.google.com/webstore/detail/firespotting-interesting/ojpglnpnoelmmmaihjcfgmaakcgpceon)
 
 ## License
-[Under MIT License](https://github.com/quitschibo/firespotting-chrome-extension/blob/master/src/LICENSE.txt)
+[Under MIT License](src/LICENSE.txt)
