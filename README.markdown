@@ -16,3 +16,7 @@ Just take the extension from [google chrome store](https://chrome.google.com/web
 
 ## License
 [Under MIT License](src/LICENSE.txt)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/quitschibo/firespotting-chrome-extension/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
