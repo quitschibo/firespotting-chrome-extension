@@ -10,3 +10,6 @@ env:
     - secure: "bOaIYRw/IEDte06WCUq6vDcUmPpxT9wm2qXOSfXkYBKGlMHno0Nt7K1K2A8ZmhOHMPT2wbTm0+9IwdZ8kZDpf0Y47T39L7RImCEDz7bUZnI289wvKnNWaXClmmRye+uXQX8wIRrI31o44J654/0HcVwG9cyhTazR8wui1du3r60="
 
 after-success: "make selenium"
+
+notifications:
+  slack: manmoe:P1jnCg1yRXtcJN0iLRN9tHWF
