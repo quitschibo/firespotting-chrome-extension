@@ -265,6 +265,16 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+.inner a {
+  color: #000000;
+  text-decoration: none;
+}
+
+#project_title a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 #forkme_banner {
   display: block;
   position: absolute;
