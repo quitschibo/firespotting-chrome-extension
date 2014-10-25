@@ -138,10 +138,10 @@ strong {
 
 img {
   position: relative;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
   max-width: 739px;
-  padding: 5px;
-  margin: 10px 0 10px 0;
+  /*padding: 5px;*/
+  margin-right: 10px;
   border: 1px solid #ebebeb;
 
   box-shadow: 0 0 5px #ebebeb;
