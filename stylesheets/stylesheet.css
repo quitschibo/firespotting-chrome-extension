@@ -329,6 +329,17 @@ Full-Width Styles
   background: url(../images/sprite_download.png) no-repeat bottom left;
 }
 
+.chrome-store-link {
+  display: block;
+  float: right;
+  width: 90px;
+  height:70px;
+  text-indent: -5000px;
+  overflow: hidden;
+  background: url(../images/chrome-icon-72.png) no-repeat bottom left;
+  margin-left: 10px;
+}
+
 .tar_download_link {
   display: block;
   float: right;
