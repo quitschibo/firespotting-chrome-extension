@@ -1,4 +1,9 @@
+window.onload = function(){
+	main();
+	setupEvents();
+};
 function setupEvents() {
+	$('#submitLink').click(submitCurrentTab);
 	$('#refresh').click(refreshLinks);
 	$('a#options').click(function(){
 		console.log("CLICKED THE OPTIONS LINK");
@@ -10,7 +15,7 @@ function main() {
 		buildPopupAfterResponse = true;
 		UpdateFeed();
 	} else {
-		this.buildPopup(RetrieveLinksFromLocalStorage());
+		buildPopup(RetrieveLinksFromLocalStorage());
   }
 }
 
@@ -25,7 +30,7 @@ function buildPopup(links) {
 	title.addEventListener("click", openLink);
 
 	for (var i=0; i<links.length; i++) {
-		fsLink = links[i];
+		hnLink = links[i];
 		var row = document.createElement("tr");
 		row.className = "link";
 		var num = document.createElement("td");
@@ -33,18 +38,18 @@ function buildPopup(links) {
 		var link_col = document.createElement("td");
 		var title = document.createElement("a");
 		title.className = "link_title";
-		title.innerText = fsLink.Title;
-		title.href = fsLink.Link;
+		title.innerText = hnLink.Title;
+		title.href = hnLink.Link;
 		title.addEventListener("click", openLink);
 		var comments = document.createElement("a");
 		comments.className = "comments";
 		comments.innerText = "(comments)";
-		comments.href = fsLink.CommentsLink;
+		comments.href = hnLink.CommentsLink;
 		comments.addEventListener("click", openLink);
 		var fireImage = document.createElement("img");
 		fireImage.src = "fire_small.png";
 		fireImage.className = "imagemargin";
-		if (fsLink.Title.endsWith("Fire!")) {
+		if (hnLink.Title.endsWith("Fire!")) {
 			link_col.appendChild(fireImage);
 		}
 		link_col.appendChild(title);
@@ -71,10 +76,20 @@ function refreshLinks() {
 	toggle("container");
 	toggle("spinner");
 	var linkTable = document.getElementById("feed");
-	while(linkTable.hasChildNodes()) linkTable.removeChild(linkTable.firstChild()); //Remove all current links
+	while(linkTable.hasChildNodes()) linkTable.removeChild(linkTable.firstChild); //Remove all current links
 	buildPopupAfterResponse = true;
 	UpdateIfReady(true);
 	updateLastRefreshTime();
+}
+
+//Submit the current tab
+function submitCurrentTab() {
+	chrome.windows.getCurrent(function(win){
+		chrome.tabs.getSelected(win.id, function(tab){
+			var submit_url = "http://news.ycombinator.com/submitlink?u=" + encodeURIComponent(tab.url) + "&t=" + encodeURIComponent(tab.title);
+			openUrl(submit_url, true);
+		});
+	});
 }
 
 // awesome function provided by http://stackoverflow.com/questions/280634/endswith-in-javascript - Thanks a lot!
@@ -82,7 +97,3 @@ String.prototype.endsWith = function(suffix) {
 	return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-// node.js boilerplate
-module.exports.main = main;
-module.exports.buildPopup = buildPopup;
-module.exports.refreshLinks = refreshLinks;

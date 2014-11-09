@@ -2,13 +2,15 @@
   "author": "Manuel Möhlmann <mail@manmoe.com>",
   "name": "firespotting-chrome-extension",
   "description": "A Firespotting! extension for chrome",
-  "version": "0.3.1",
+  "version": "0.3.0",
   "scripts": {
     "test": "make test"
   },
   "devDependencies": {
-    "mocha": "1.13.x",
+    "mocha": "1.12.x",
     "coveralls": "~2.3.0",
-    "istanbul": "0.1.x"
+    "istanbul": "0.1.x",
+    "sinon": "1.7.x",
+    "jsmockito": "1.0.x"
   }
 }

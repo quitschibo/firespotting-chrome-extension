@@ -13,7 +13,6 @@ function SetInitialOption(key, value) {
 	}
 }
 
-// function for retrieving new ideas
 function UpdateIfReady(force) {
 	var lastRefresh = parseFloat(localStorage["FS.LastRefresh"]);
 	var interval = parseFloat(localStorage["FS.RequestInterval"]);
@@ -23,45 +22,137 @@ function UpdateIfReady(force) {
 	var isNull = (localStorage["FS.LastRefresh"] == null);
 	useForce = force;
 	if ((force == true) || (localStorage["FS.LastRefresh"] == null)) {
-		this.UpdateFeed();
+		UpdateFeed();
 	} else {
 		if (isReady) {
-			this.UpdateFeed();
+			UpdateFeed();
 		}
 	}
 }
 
-// function calls rss feed
 function UpdateFeed() {
-	$.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:coreObject.onRssError, async: false});
+	$.ajax({type:'GET', dataType:'xml', url: 'http://firespotting.com/rss', timeout:5000, success:onRssSuccess, error:onRssError, async: false});
 }
 
-// function for parsing the rss result
 function onRssSuccess(doc) {
 	if (!doc) {
-		coreObject.handleFeedParsingFailed("Not a valid feed.");
+		handleFeedParsingFailed("Not a valid feed.");
 		return;
 	}
-	links = coreObject.parseFSLinks(doc);
-	coreObject.handleLinkNotification(links);
-	coreObject.SaveLinksToLocalStorage(links);
-
-	if (this.buildPopupAfterResponse == true) {
-		this.buildPopupAfterResponse = false;
-		this.delegateBuildPopup(links);
+	links = parseHNLinks(doc);
+	if (localStorage['FS.Notifications'] == 'true') {
+		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
+			ShowLinkNotification(links[0]);
+			localStorage['FS.LastNotificationTitle'] = links[0].Title;
+		} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
+			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
+			localStorage['FS.LastNotificationTitle'] = links[0].Title;
+		}
 	}
-	localStorage["FS.LastRefresh"] = new Date().getTime();
+	SaveLinksToLocalStorage(links);
+	if (buildPopupAfterResponse == true) {
+		buildPopup(links);
+		buildPopupAfterResponse = false;
+	}
+	localStorage["FS.LastRefresh"] = (new Date()).getTime();
 }
 
-function openLinkFront() {
-	openUrl(this.href, true);
+function updateLastRefreshTime() {
+	localStorage["FS.LastRefresh"] = (new Date()).getTime();
 }
 
-/**
- * Function just for delegating to buildPopup() method on popup.js.
- */
-function delegateBuildPopup(links) {
-	buildPopup(links);
+function DebugMessage(message) {
+	var notification = webkitNotifications.createNotification(
+		"bulb18.png",
+		"DEBUG",
+		printTime(new Date()) + " :: " + message
+	);
+	notification.show();
+}
+
+function ShowLinkNotification(link) {
+	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
+
+	// notification onClick function
+	notification.addEventListener("click", function () {
+		window.open(link.Link);
+		notification.close();
+	});
+
+	// set notification timeout
+	if (localStorage["FS.NotificationTimeout"] != "infinity") {
+		setTimeout(function() { notification.close(); }, localStorage["FS.NotificationTimeout"]);
+	}
+	notification.show();
+}
+
+function onRssError(xhr, type, error) {
+	handleFeedParsingFailed('Failed to fetch RSS feed.');
+}
+
+function handleFeedParsingFailed(error) {
+	localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
+}
+
+function parseXml(xml) {
+	var xmlDoc;
+	try {
+		xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
+		xmlDoc.async = false;
+		xmlDoc.loadXML(xml);
+	} catch (e) {
+		xmlDoc = (new DOMParser).parseFromString(xml, 'text/xml');
+	}
+	return xmlDoc;
+}
+
+function parseHNLinks(doc) {
+	var entries = doc.getElementsByTagName('entry');
+	if (entries.length == 0) {
+		entries = doc.getElementsByTagName('item');
+	}
+	var count = Math.min(entries.length, maxFeedItems);
+	var links = new Array();
+	for (var i=0; i< count; i++) {
+		item = entries.item(i);
+		var hnLink = new Object();
+		//Grab the title
+		var itemTitle = item.getElementsByTagName('title')[0];
+		if (itemTitle) {
+			hnLink.Title = itemTitle.textContent;
+		} else {
+			hnLink.Title = "Unknown Title";
+		}
+
+		//Grab the Link
+		var itemLink = item.getElementsByTagName('link')[0];
+		if (!itemLink) {
+			itemLink = item.getElementsByTagName('comments')[0];
+		}
+		if (itemLink) {
+			hnLink.Link = itemLink.textContent;
+		} else {
+			hnLink.Link = '';
+		}
+
+		//Grab the comments link
+		var commentsLink = item.getElementsByTagName('comments')[0];
+		if (commentsLink) {
+			hnLink.CommentsLink = commentsLink.textContent;
+		} else {
+			hnLink.CommentsLink = '';
+		}
+
+		links.push(hnLink);
+	}
+	return links;
+}
+
+function SaveLinksToLocalStorage(links) {
+	localStorage["FS.NumLinks"] = links.length;
+	for (var i=0; i<links.length; i++) {
+		localStorage["FS.Link" + i] = JSON.stringify(links[i]);
+	}
 }
 
 function RetrieveLinksFromLocalStorage() {
@@ -75,6 +166,35 @@ function RetrieveLinksFromLocalStorage() {
 		}
 		return links;
 	}
+}
+
+function openOptions() {
+	var optionsUrl = chrome.extension.getURL('options.html');
+	chrome.tabs.create({url: optionsUrl});
+}
+
+function openLink() {
+	openUrl(this.href, (localStorage['FS.BackgroundTabs'] == 'false'));
+}
+
+function openLinkFront() {
+	openUrl(this.href, true);
+}
+
+function printTime(d) {
+	var hour   = d.getHours();
+	var minute = d.getMinutes();
+	var ap = "AM";
+	if (hour   > 11) { ap = "PM";             }
+	if (hour   > 12) { hour = hour - 12;      }
+	if (hour   == 0) { hour = 12;             }
+	if (minute < 10) { minute = "0" + minute; }
+	var timeString = hour +
+					':' +
+					minute +
+					" " +
+					ap;
+	return timeString;
 }
 
 // Show |url| in a new tab.
@@ -96,146 +216,15 @@ function showElement(id) {
 	e.style.display = 'block';
 }
 
-function openOptions() {
-	var optionsUrl = chrome.extension.getURL('options.html');
-	chrome.tabs.create({url: optionsUrl});
+function toggle(id) {
+	var e = document.getElementById(id);
+	if(e.style.display == 'block')
+		e.style.display = 'none';
+	else
+		e.style.display = 'block';
 }
-
-function openLink() {
-	openUrl(this.href, (localStorage['FS.BackgroundTabs'] == 'false'));
-}
-
-var coreObject = {
-	/**
-	 * Show notifications, if needed.
-	 */
-	handleLinkNotification: function (links) {
-		if (localStorage['FS.Notifications'] != 'true') {
-			// don't do anything, when notification are off
-			return;
-		}
-		if (!this.useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
-			this.ShowLinkNotification(links[0]);
-			localStorage['FS.LastNotificationTitle'] = links[0].Title;
-		} else if (this.useForce && localStorage['FS.LastNotificationTitle'] == null) {
-			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
-			localStorage['FS.LastNotificationTitle'] = links[0].Title;
-		}
-	},
-
-	ShowLinkNotification: function (link) {
-		var notification = this.createWebNotification(link);
-
-		// notification onClick function
-		notification.addEventListener("click", function () {
-			window.open(link.Link);
-			notification.close();
-		});
-
-		// set notification timeout
-		if (localStorage["FS.NotificationTimeout"] != "infinity") {
-			setTimeout(function() { notification.close(); }, localStorage["FS.NotificationTimeout"]);
-		}
-		notification.show();
-	},
-
-	createWebNotification: function (link) {
-		return webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
-	},
-
-	onRssError: function (xhr, type, error) {
-		handleFeedParsingFailed('Failed to fetch RSS feed.');
-	},
-
-	handleFeedParsingFailed: function (error) {
-		localStorage["FS.LastRefresh"] = localStorage["FS.LastRefresh"] + retryMilliseconds;
-	},
-
-	parseFSLinks: function (doc) {
-		var entries = this.extractEntries(doc);
-		var count = Math.min(entries.length, maxFeedItems);
-		var links = new Array();
-		for (var i=0; i< count; i++) {
-			item = entries.item(i);
-			var fsLink = new Object();
-			//Grab the title
-			var itemTitle = item.getElementsByTagName('title')[0];
-			if (itemTitle) {
-				fsLink.Title = itemTitle.textContent;
-			} else {
-				fsLink.Title = "Unknown Title";
-			}
-
-			//Grab the Link
-			var itemLink = item.getElementsByTagName('link')[0];
-			if (!itemLink) {
-				itemLink = item.getElementsByTagName('comments')[0];
-			}
-			if (itemLink) {
-				fsLink.Link = itemLink.textContent;
-			} else {
-				fsLink.Link = '';
-			}
-
-			//Grab the comments link
-			var commentsLink = item.getElementsByTagName('comments')[0];
-			if (commentsLink) {
-				fsLink.CommentsLink = commentsLink.textContent;
-			} else {
-				fsLink.CommentsLink = '';
-			}
-
-			links.push(fsLink);
-		}
-		return links;
-	},
-
-	extractEntries: function (doc) {
-		entries = doc.getElementsByTagName('entry');
-		if (entries.length == 0) {
-			entries = doc.getElementsByTagName('item');
-		}
-		return entries;
-	},
-
-	SaveLinksToLocalStorage: function (links) {
-		localStorage["FS.NumLinks"] = links.length;
-		for (var i=0; i<links.length; i++) {
-			localStorage["FS.Link" + i] = JSON.stringify(links[i]);
-		}
-	},
-
-	toggle: function (id) {
-		var e = document.getElementById(id);
-		if(e.style.display == 'block')
-			e.style.display = 'none';
-		else
-			e.style.display = 'block';
-	}
-}
-
-
 // node.js boilerplate
-// TODO: add comments for indicating from which method each export is
 module.exports.SetInitialOption = SetInitialOption;
 module.exports.localStorage = localStorage;
 module.exports.UpdateIfReady = UpdateIfReady;
 module.exports.UpdateFeed = UpdateFeed;
-module.exports.onRssSuccess = onRssSuccess;
-module.exports.parseFSLinks = coreObject.parseFSLinks;
-module.exports.ShowLinkNotification = coreObject.ShowLinkNotification;
-module.exports.SaveLinksToLocalStorage = coreObject.SaveLinksToLocalStorage;
-module.exports.buildPopupAfterResponse = buildPopupAfterResponse;
-module.exports.delegateBuildPopup = delegateBuildPopup;
-module.exports.useForce = useForce;
-module.exports.coreObject = coreObject;
-module.exports.RetrieveLinksFromLocalStorage = RetrieveLinksFromLocalStorage;
-module.exports.handleLinkNotification = coreObject.handleLinkNotification;
-module.exports.createWebNotification = coreObject.createWebNotification;
-module.exports.extractEntries = coreObject.extractEntries;
-module.exports.toggle = coreObject.toggle;
-module.exports.handleFeedParsingFailed = coreObject.handleFeedParsingFailed;
-module.exports.retryMilliseconds = retryMilliseconds;
-module.exports.openUrl = openUrl;
-module.exports.hideElement = hideElement;
-module.exports.showElement = showElement;

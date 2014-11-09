@@ -1,84 +1,70 @@
-// function will be executed, when user opens options page
 $(function(){
 	restoreOptions();
-	// options should be saved within every change
 	$('.notifications-radio, .background-tabs-radio, #RequestInterval, #NotificationTimeout').change(function(){
 		saveOptions();
 	});
 });
-
 var selectReqInterval;
 var radioNotifications;
 var radioBackgroundTabs;
 var selectNotificationTimeout;
 
 function initVariables() {
-	this.selectReqInterval = document.getElementById("RequestInterval");
-	this.radioNotifications = document.getElementsByName("Notifications");
-	this.radioBackgroundTabs = document.getElementsByName("BackgroundTabs");
-	this.selectNotificationTimeout = document.getElementById("NotificationTimeout");
+	selectReqInterval = document.getElementById("RequestInterval");
+	radioNotifications = document.getElementsByName("Notifications");
+	radioBackgroundTabs = document.getElementsByName("BackgroundTabs");
+	selectNotificationTimeout = document.getElementById("NotificationTimeout");
 }
 
-// make all options visible for the user
 function restoreOptions() {
-	this.initVariables();
+	initVariables();
 	var reqInterval = localStorage["FS.RequestInterval"];
-	for (var i = 0; i < this.selectReqInterval.children.length; i++) {
-		if (this.selectReqInterval[i].value == reqInterval) {
-			this.selectReqInterval[i].selected = "true";
+	for (var i = 0; i < selectReqInterval.children.length; i++) {
+		if (selectReqInterval[i].value == reqInterval) {
+			selectReqInterval[i].selected = "true";
 			break;
 		}
 	}
 	var notifications = localStorage["FS.Notifications"];
-	for (var i = 0; i < this.radioNotifications.length; i++) {
-		if (this.radioNotifications[i].value == notifications) {
-			this.radioNotifications[i].checked = "true";
+	for (var i = 0; i < radioNotifications.length; i++) {
+		if (radioNotifications[i].value == notifications) {
+			radioNotifications[i].checked = "true";
 		}
 	}
 	var backgroundTabs = localStorage["FS.BackgroundTabs"];
-	for (var i = 0; i < this.radioBackgroundTabs.length; i++) {
-		if (this.radioBackgroundTabs[i].value == backgroundTabs) {
-			this.radioBackgroundTabs[i].checked = "true";
+	for (var i = 0; i < radioBackgroundTabs.length; i++) {
+		if (radioBackgroundTabs[i].value == backgroundTabs) {
+			radioBackgroundTabs[i].checked = "true";
 		}
 	}
 	var notificationTimeout = localStorage["FS.NotificationTimeout"];
-	for (var i = 0; i < this.selectNotificationTimeout.children.length; i++) {
-		if (this.selectNotificationTimeout[i].value == notificationTimeout) {
-			this.selectNotificationTimeout[i].selected = "true";
+	for (var i = 0; i < selectNotificationTimeout.children.length; i++) {
+		if (selectNotificationTimeout[i].value == notificationTimeout) {
+			selectNotificationTimeout[i].selected = "true";
 			break;
 		}
 	}
 }
 
-// function for saving all options to local storage
 function saveOptions() {
-	var interval = this.selectReqInterval.children[this.selectReqInterval.selectedIndex].value;
+	var interval = selectReqInterval.children[selectReqInterval.selectedIndex].value;
 	localStorage["FS.RequestInterval"] = interval;
 
-	var notificationTimeout = this.selectNotificationTimeout.children[this.selectNotificationTimeout.selectedIndex].value;
+	var notificationTimeout = selectNotificationTimeout.children[selectNotificationTimeout.selectedIndex].value;
 	localStorage["FS.NotificationTimeout"] = notificationTimeout;
 
-	for (var i = 0; i < this.radioNotifications.length; i++) {
-		if (this.radioNotifications[i].checked) {
-			localStorage["FS.Notifications"] = this.radioNotifications[i].value;
+	for (var i=0; i<radioNotifications.length; i++) {
+		if (radioNotifications[i].checked) {
+			localStorage["FS.Notifications"] = radioNotifications[i].value;
 			break;
 		}
 	}
 
-	for (var i = 0; i < this.radioBackgroundTabs.length; i++) {
-		if (this.radioBackgroundTabs[i].checked) {
-			localStorage["FS.BackgroundTabs"] = this.radioBackgroundTabs[i].value;
+	for (var i=0; i<radioBackgroundTabs.length; i++) {
+		if (radioBackgroundTabs[i].checked) {
+			localStorage["FS.BackgroundTabs"] = radioBackgroundTabs[i].value;
 			break;
 		}
 	}
 }
-
-// node.js boilerplate
-module.exports.selectReqInterval = selectReqInterval;
-module.exports.radioNotifications = radioNotifications;
-module.exports.radioBackgroundTabs = radioBackgroundTabs;
-module.exports.selectNotificationTimeout = selectNotificationTimeout;
-module.exports.initVariables = initVariables;
-module.exports.restoreOptions = restoreOptions;
-module.exports.saveOptions = saveOptions;
 
