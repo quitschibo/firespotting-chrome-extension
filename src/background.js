@@ -1,8 +1,26 @@
 var firstRequest = true;
 function startRequest() {
+	// this function MUST BE called just once!
+	if (firstRequest) {
+		setNotificationListener();
+	}
+
 	UpdateIfReady(firstRequest);
 	firstRequest = false;
 	window.setTimeout(startRequest, 60000);
+}
+
+/**
+ * Function for setting the listener for the notifications. This function will be called once.
+ */
+function setNotificationListener() {
+	// notification onClick function
+	chrome.notifications.onClicked.addListener(function () {
+
+		// open link
+		window.open(localStorage.getItem('FS.LastNotificationUrl'));
+		//chrome.notifications.clear();
+	});
 }
 
 if (localStorage["FS.Notifications"] == null) {

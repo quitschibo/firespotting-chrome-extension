@@ -44,9 +44,11 @@ function onRssSuccess(doc) {
 		if (!useForce && (localStorage['FS.LastNotificationTitle'] == null || localStorage['FS.LastNotificationTitle'] != links[0].Title)) {
 			ShowLinkNotification(links[0]);
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
+			localStorage['FS.LastNotificationUrl'] = links[0].Link;
 		} else if (useForce && localStorage['FS.LastNotificationTitle'] == null) {
 			// is only valid for first loading -> the first title will be ignored, because you will see the full list the first time.
 			localStorage['FS.LastNotificationTitle'] = links[0].Title;
+			localStorage['FS.LastNotificationUrl'] = links[0].Link;
 		}
 	}
 	SaveLinksToLocalStorage(links);
@@ -71,19 +73,21 @@ function DebugMessage(message) {
 }
 
 function ShowLinkNotification(link) {
-	var notification = webkitNotifications.createNotification("bulb48.png", "Firespotting Top Idea", link.Title);
+	notificationProperties = {
+		type: "basic",
+		title: "Firespotting Top Idea",
+		iconUrl: "bulb48.png",
+		message: link.Title
+	};
 
-	// notification onClick function
-	notification.addEventListener("click", function () {
-		window.open(link.Link);
-		notification.close();
-	});
+	var notificationId = "fce-notification_" + link.Title;
+
+	chrome.notifications.create(notificationId, notificationProperties, function() { console.log('created!'); });
 
 	// set notification timeout
 	if (localStorage["FS.NotificationTimeout"] != "infinity") {
-		setTimeout(function() { notification.close(); }, localStorage["FS.NotificationTimeout"]);
+		setTimeout(function() { chrome.notifications.clear(notificationId, function(wasCleared) { console.log("notification was cleared: " + wasCleared); }); }, localStorage["FS.NotificationTimeout"]);
 	}
-	notification.show();
 }
 
 function onRssError(xhr, type, error) {
@@ -223,6 +227,7 @@ function toggle(id) {
 	else
 		e.style.display = 'block';
 }
+
 // node.js boilerplate
 module.exports.SetInitialOption = SetInitialOption;
 module.exports.localStorage = localStorage;
