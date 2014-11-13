@@ -1,7 +1,14 @@
-window.onload = function(){
+$(document).ready(function() {
 	main();
 	setupEvents();
-};
+
+	/**
+	 * if the listeners are loaded, show links
+	 */
+	$('body').addClass('ready');
+});
+
+
 function setupEvents() {
 	$('#submitLink').click(submitCurrentTab);
 	$('#refresh').click(refreshLinks);
@@ -9,6 +16,7 @@ function setupEvents() {
 		console.log("CLICKED THE OPTIONS LINK");
 		openOptions();
 	});
+
 }
 function main() {
 	if (localStorage['FS.NumLinks'] == null) {
@@ -73,6 +81,7 @@ function buildPopup(links) {
 
 function refreshLinks() {
 	console.log('refreshing!');
+	$('body').removeClass("ready");
 	toggle("container");
 	toggle("spinner");
 	var linkTable = document.getElementById("feed");
